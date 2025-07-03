@@ -28,11 +28,34 @@ The "Real Data Over Mock Data" principle requires different approaches depending
 - **Migration Strategy:** Define how legacy data will evolve toward cleaner contracts over time
 
 **Schema-First with Reality Contracts**
-- **Prisma Schema as Target State:** Define ideal data structures while building migration paths from current reality
+- **Legacy Projects - DB-First Approach:** Use `prisma db pull` or AI-powered database analysis to generate initial Prisma schema from existing tables. The generated schema becomes your "current state" baseline, then evolve iteratively toward cleaner contracts as you build new features.
+- **New Projects - Schema-First Approach:** AI and humans collaborate to design ideal data models upfront, starting with proper relationships, constraints, and naming conventions.
+- **Prisma Schema as Semantic Bridge:** Whether generated from legacy DB or designed from scratch, the Prisma schema serves as the data contract that both BDD specs and components reference:
+```prisma
+// Define the `User` table in the database
+model User {
+  id       String  @id @default(cuid())
+  email    String  @unique
+  password String
+  name     String?
+  posts    Post[]
+}
+
+// Define the `Post` table in the database
+model Post {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  title     String
+  content   String?
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+}
+```
 - **Graceful Degradation Patterns:** Components expect clean data but handle messy reality through:
   - Default values for missing fields
   - Validation with user-friendly error states  
   - Progressive data enhancement over time
+- **Migration Strategy:** Prisma migrations provide the evolutionary path from legacy structures toward cleaner data contracts, with each iteration informed by real usage patterns.
 
 **Runtime Data Quality Monitoring**
 - **Level 5 Enhancement:** Add data quality metrics alongside performance monitoring
@@ -61,7 +84,14 @@ This dual-project approach ensures the methodology works both in ideal condition
         -   **Ideation (Level 0) → GitHub Discussions:** Broad ideas, Q&A, and brainstorming live here. A discussion can be converted into an issue once it's ready for specification.
         -   **Specification & Tracking (Levels 1 & 4) → GitHub Issues & Projects:** A BDD `.feature` file gets a corresponding "Epic" issue. This issue is broken down into smaller, actionable task issues. All issues are tracked on a GitHub Project board to visualize our continuous flow.
         -   **Feedback (Level 3) → GitHub Pull Requests:** PRs are the hub for code review. Vercel preview deployment comments appear here, creating a tight feedback loop directly on the code.
-        -   **Architectural Decisions → Architecture Decision Records (ADRs):** For significant architectural changes, we use a lightweight ADR process. A markdown file documenting the context, decision, and consequences is committed to the repository after team review, ensuring major decisions are transparent and well-documented.
+        -   **Architectural Decisions → Architecture Decision Records (ADRs):** ADRs are **event-driven, not calendar-driven**. When an architectural decision emerges - during development, retrospectives, or daily work - it's captured immediately:
+            1. **Trigger moment**: Team identifies need to decide between approaches
+            2. **Quick team discussion** (can be async in GitHub)
+            3. **Team member dictates context, decision, and reasoning to AI**
+            4. **AI generates the ADR markdown**
+            5. **Quick team review** (5-10 minutes max) and commit to repo
+            
+            This ensures architectural decisions are captured just-in-time when context is fresh, not lost in meeting notes or Slack threads. The AI handles formatting and structure while humans provide the thinking.
     -   **AI-Powered Acceleration:** We will leverage tools like **GitHub Copilot** to streamline issue creation. By using natural language or even screenshots, we can auto-populate issue templates, reducing manual effort and ensuring consistency. This makes tracking work less of a chore and more of a natural part of the development flow.
 -   **Level 0: Ideation & Lo-Fi Exploration (The "Napkin Sketch")**
     -   **Artifacts:** Disposable sketches, whiteboard drawings, or token-less Figma wireframes.
@@ -73,6 +103,11 @@ This dual-project approach ensures the methodology works both in ideal condition
     -   **Artifact:** Human-readable `.feature` files that document the most critical user journeys (e.g., onboarding, purchasing).
     -   **Goal:** To create a "living document" that acts as a contract between product, design, and engineering. It defines the _why_ behind a feature and doubles as a high-value, automated end-to-end test that validates our work against the original intent.
     -   **Human-Centered Design:** BDD specs capture complete user journeys and experiences, not technical system requirements. Each feature file tells the story of what users are trying to accomplish, maintaining focus on user value throughout development.
+    -   **UX Risk Assessment & Testing Strategy:** Testing intensity scales with UX complexity and novelty:
+        -   **Low UX Risk** (standard patterns, familiar conventions): BDD specs + basic interaction tests
+        -   **Medium UX Risk** (new combinations of familiar patterns): BDD specs + cross-device testing + user flow validation  
+        -   **High UX Risk** (novel interactions, complex workflows, critical conversion paths): BDD specs + A/B testing + session replay analysis + user testing
+        -   **Pattern Recognition:** Existing, battle-tested patterns require minimal testing; novel approaches demand comprehensive validation
     -   **Self-Validating:** Well-written BDD specs generate the test scaffolding and happy path scenarios, with manual code added for complex interactions and edge cases.
     -   **Self-Healing:** Real user behavior data informs spec refinements, with AI suggesting updates based on failure patterns and usage analytics for human review and approval.
     -   **Experimental Evolution:** Feature flags enable risky designs to be tested safely, with Git managing the organic evolution of specifications over time. Failed experiments archive gracefully, successful patterns promote to core specs.
@@ -90,7 +125,8 @@ This dual-project approach ensures the methodology works both in ideal condition
         -   Design system consistency enforced through tooling, not manual processes
 -   **Level 3: The Core Technology Stack & Real-Time Feedback**
     -   **Monorepo: Turborepo** enables shared components, BDD specs, and data contracts across both clean and legacy test projects, with incremental builds and remote caching optimized for Vercel deployments.
-    -   **Data Layer: Prisma** provides end-to-end type safety from the database to the client, eliminating an entire class of bugs.
+    -   **Data Layer: Prisma** provides end-to-end type safety from the database to the client, eliminating an entire class of bugs. Unlike traditional ORMs, Prisma works with plain JavaScript objects and serves as a single source of truth through the declarative Prisma schema.
+    -   **Database: Vercel Postgres** provides a fully managed PostgreSQL database optimized for Vercel deployments, with automatic scaling and zero-configuration setup.
     -   **Language: TypeScript** ensures our codebase is robust, scalable, and self-documenting.
     -   **Framework: Next.js** (with the App Router) gives us a world-class foundation for building performant, full-stack applications.
     -   **Styling: Tailwind 4** enables us to build beautiful, custom UIs with maximum speed and maintainability.
@@ -101,7 +137,7 @@ This dual-project approach ensures the methodology works both in ideal condition
     -   **Physics of Flow:** Tasks are "pulled" by teams as needed rather than "pushed" by external project managers. Features flow naturally from validated specs to deployment without artificial bottlenecks.
     -   **Web Releases:** Happen continuously via Vercel.
     -   **Native Releases:** Happen on a cadenced schedule (e.g., bi-weekly) by tagging a release, which is automatically built and deployed by a **GitHub Actions** workflow.
-    -   **Native Wrappers: Capacitor** to package the finished PWA for iOS and Android.
+    -   **Native Wrappers: Capacitor** to package the finished PWA for iOS and Android. When built mobile-first with proper responsive design and web APIs, native compilation is straightforward - no need to overstate complexity.
     -   **Automated Release Notes:** For every release, a GitHub Action will auto-generate draft release notes by summarizing all merged pull requests since the last tag. These notes are then enhanced by an AI for clarity and user-friendliness, and finally reviewed and approved by a human before publishing.
 -   **Level 5: Monitoring, Observability & Impact**
     -   **Tools:** Sentry (for error tracking), LogRocket (for session replay), Vercel Analytics (for performance metrics), Mixpanel (for product analytics).
@@ -137,4 +173,6 @@ The process is a flywheel where quality and speed build on real-world validation
 -   **Context-Native Development:** Components live and breathe in their actual application context, not in artificial isolation.
 -   **Immediate Stakeholder Feedback:** Vercel previews provide instant access to working features with real functionality.
 -   **Evolutionary Specifications:** BDD specs self-validate through generated test scaffolding and self-heal through data-driven refinements with human approval, with Git managing organic change and feature flags enabling safe experimentation.
+-   **Process as a Product:** The "Tree of Life" methodology itself is treated as an internal product. It is subject to the same cycle of feedback and iterative improvement. We hold regular retrospectives to review our workflow, tooling, and principles, using data from Levels 4 and 5 to identify bottlenecks and opportunities for enhancement. Changes to the process are documented and communicated, ensuring the system itself adapts and evolves.
 -   **AI-Aided Mini Design Sprints:** Human-curated AI accelerates ideation and validation cycles, turning traditional multi-day design sprints into focused sessions that immediately inform development.
+-   **Event-Driven Documentation:** Architectural decisions and process insights are captured just-in-time when context is fresh, using AI assistance for formatting while humans provide the strategic thinking.
