@@ -13,7 +13,7 @@ datasource db {
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
-  password  String   // Should be hashed before storing
+  password  String   // TODO: Passwords must be hashed before storing in the database.
   firstName String?  // Optional initially
   lastName  String?  // Optional initially
   
@@ -26,6 +26,8 @@ model User {
   // Timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  posts Post[] // Relation to the Post model
   
   @@map("users")
 }
@@ -40,4 +42,18 @@ model OnboardingStep {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   
   @@map("onboarding_steps")
+}
+
+// Model for user posts, as described in the manifesto
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  content   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@map("posts")
 }
