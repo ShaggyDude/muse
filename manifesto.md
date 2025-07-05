@@ -19,6 +19,7 @@ The "Real Data Over Mock Data" principle requires different approaches depending
 - Test data evolution and cleanup processes
 - Validate graceful degradation patterns
 - Prove the methodology scales to existing systems
+- Add GraphQL layer as a federation layer for highly fragmented data source Not included by default in the project
 
 ### Hybrid Data Evolution Approach
 
@@ -56,6 +57,26 @@ model Post {
   - Validation with user-friendly error states  
   - Progressive data enhancement over time
 - **Migration Strategy:** Prisma migrations provide the evolutionary path from legacy structures toward cleaner data contracts, with each iteration informed by real usage patterns.
+
+- **GraphQL and Prisma: A Powerful Combination:** For Project 2, where data sources may be fragmented, GraphQL serves as the ideal API gateway. Prisma remains the data access layer within that architecture.
+  - **Distinct Roles:** GraphQL defines *what* data clients can request. Prisma implements *how* that data is fetched from the database inside GraphQL resolvers.
+  - **Type-Safe Resolvers:** This combination provides end-to-end type safety. The Prisma schema informs the resolvers, and the GraphQL schema can be used to generate types for the client.
+  - **Efficient by Default:** Prisma's query engine batches and optimizes data fetching, naturally solving the N+1 query problem common in GraphQL APIs.
+  ```typescript
+  // Example of a GraphQL resolver using Prisma Client
+  const resolvers = {
+    Query: {
+      // The resolver uses Prisma to efficiently fetch posts and their authors.
+      posts: async (_parent, _args, context) => {
+        return context.prisma.post.findMany({
+          include: {
+            author: true, // Prisma handles the join efficiently.
+          },
+        });
+      },
+    },
+  };
+  ```
 
 **Runtime Data Quality Monitoring**
 - **Level 5 Enhancement:** Add data quality metrics alongside performance monitoring

@@ -1,1 +1,11 @@
 @import "tailwindcss";
+
+b { display: block; font-weight: unset}
+
+s { text-decoration: unset}
+
+/* html {
+    font-family: var(--font-geist-sans);
+} */
+
+/* Tailwind – System Color Palette */

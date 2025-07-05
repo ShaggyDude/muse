@@ -1,4 +1,4 @@
-import { Button } from "@repo/ui/button";
+import { Button } from "@repo/ui";
 
 const FeatureCard = ({
   title,
@@ -46,7 +46,7 @@ export default function Home() {
             contributing to the project.
           </p>
           <div className="pt-4">
-            <Button appName="docs" className="px-8 py-3 text-lg">
+            <Button variant="default" className="px-8 py-3 text-lg">
               Get Started
             </Button>
           </div>
