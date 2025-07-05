@@ -188,6 +188,7 @@ The process is a flywheel where quality and speed build on real-world validation
 
 -   **Human-Centered Design First:** Like Brunel's Great Western Railway, we start with the complete user experience rather than technical requirements. BDD specs capture user journeys, not system features.
 -   **Physics of Flow:** Work flows "just in time" between levels without handoff processes. Real data eliminates the mock → real transition. Vercel previews eliminate the development → staging handoff.
+-   **User-Controlled Experience:** We will allow the user to control the experience as much as possible with mobile-first and dark-mode first. And add in `AccentColor` when `@supported` to build a color palette based on user preferences. We will NOT use a theme switcher in the app but simply follow the users system prefrence. Theme switchers are an example of the anti-features we avoid.
 -   **Dual Track Evolution:** Design exploration (Level 0) runs asynchronously from development (Level 2), with each feeding the other at natural intervals rather than forced synchronization points.
 -   **Real Data Over Mock Data:** Every component is developed with actual data flows and edge cases from day one.
 -   **Flow-Level Validation:** Testing and feedback happen at the user journey level, not the isolated component level.
