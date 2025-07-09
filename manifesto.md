@@ -1,9 +1,9 @@
-## Tree of Life: A Virtuous Cycle of Adaptive Product Development
+# Tree of Life: A Virtuous Cycle of Adaptive Product Development
 
 **A modern, AI-accelerated process built on decades of experience.**
 It merges human-centered design, evolutionary specifications, and real-world data to deliver the right features—faster, leaner, and with higher confidence.
 
-**Built for teams who want to move fast without sacrificing high quality,** it answers the question *"Fast, cheap, or good?"* with a resounding *yes*.
+**Built for teams who want to move fast without sacrificing high quality,**
 
 ---
 
@@ -293,10 +293,7 @@ This stage provides the foundational technology, infrastructure, and feedback me
 * This stage continuously evolves alongside the other stages, with tech stack upgrades, testing enhancements, and feedback mechanisms refined over time.
 * Stakeholder feedback loops ensure alignment and reduce costly rework downstream.
 
-
-
 ---
-
 
 ### Stage 6: Release Cadence
 
@@ -337,9 +334,7 @@ A feature is considered complete at this stage when:
 * It’s documented in changelogs or release notes
 * It’s safe to move on without debt or ambiguity
 
-
 ---
-
 
 ### Stage 7: Monitoring, Observability & Impact
 
@@ -381,6 +376,43 @@ A feature’s lifecycle completes when:
 * Its learnings inform the next iteration, spec, or design
 
 ### Below is a more complex spec. that may be our first T0L homemade tool?
+
+```mermaid
+graph TD
+    subgraph " "
+        direction LR
+        subgraph "PREP"
+            direction TB
+            S1("<b>Stage 1</b><br/>Communication, Tracking<br/>& Data Discovery")
+        end
+
+        subgraph "DESIGN ↔ DEVELOP (Parallel & Iterative)"
+            direction TB
+            S2("<b>Stage 2</b><br/>Ideation &<br/>Lo-Fi Exploration")
+            S3("<b>Stage 3</b><br/>Self-Validating<br/>Specifications (BDD)")
+            S4("<b>Stage 4</b><br/>Direct Development<br/>with Real Data")
+            S5("<b>Stage 5</b><br/>Core Tech Stack<br/>& Feedback")
+
+            S2 <--> S3
+            S3 <--> S4
+            S4 <--> S5
+            S5 --> S2
+        end
+
+        subgraph "LAUNCH & LEARN"
+            direction TB
+            S6("<b>Stage 6</b><br/>Release Cadence")
+            S7("<b>Stage 7</b><br/>Monitoring, Observability<br/>& Impact")
+        end
+
+        S1 --> S2
+        S5 --> S6
+        S6 --> S7
+        S7 -.->|Insights &<br/>New Ideas| S1
+        S7 -.->|Refine Specs| S3
+        S7 -.->|Improve Designs| S2
+    end
+```
 
 ```gherkin
 
@@ -516,12 +548,3 @@ Feature: Component Inspector
     And the code should be formatted in a monospace font
     And it should have a dark theme with green text on dark background
 ```
-
----
-
-```mermaid
-  flowchart TD
-    A[Start] --> B{User decision}
-    B -->|Click X| C[Path A]
-    B -->|Click Y| D[Path B]
-````

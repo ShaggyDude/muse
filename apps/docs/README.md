@@ -1,4 +1,9 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/create-next-app).
+This Next.js application serves as the living documentation hub for the **Tree of Life** development methodology.
+
+It is designed to:
+- Render the `manifesto.md` and other process-related documents.
+- Potentially host the "Component Inspector" tool described in the manifesto.
+- Embody the "Process-as-a-Product" philosophy by being a product that supports the process.
 
 ## Getting Started
 
