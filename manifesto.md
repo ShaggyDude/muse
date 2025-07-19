@@ -2,8 +2,6 @@
 
 **A modern, AI-accelerated process built on decades of experience.** It merges human-centered design, evolutionary specifications, and real-world data to deliver the right features—faster, leaner, and with higher confidence.
 
-**Built for teams who want to move fast without sacrificing high quality,** it answers _"Fast, cheap, or good?"_ with a resounding _yes_.
-
 * * *
 
 ## 🌿 Process Flow Visualization
@@ -67,18 +65,19 @@ Each stage is iterative — teams are encouraged to revisit, refine, and loop ba
 
 ## 🧠 Key Philosophy Shifts
 
--   **Human-Centered Design First:** Start with full user journeys, not isolated tasks.
--   **Physics of Flow:** Work flows "just in time" with no handoff friction.
--   **Context-Native Components:** Built directly in their live data environments.
--   **Evolutionary BDD:** Self-validating specs that evolve with usage patterns.
--   **Real Data Over Mock Data:** Edge cases are discovered during development.
--   **Dual Track Async Design/Dev:** Design informs dev at natural points—not forced checkpoints.
--   **Process-as-a-Product:** The methodology itself is subject to feedback and evolution.
--   **Event-Driven Documentation:** ADRs captured when decisions happen, not scheduled meetings.
--   **AI-Aided Design Sprints:** Compressed into hours not weeks, aided by human-curated AI.
--   **Minimal Viable Documentation:** Document where it provides the most value.
--   **User-Controlled UI:** Respect system preferences (e.g., dark mode) and avoid anti-features like theme toggles.
--   **Async-Meeting Culture:** Replace time-wasting meetings with purposeful, async communication and focused collaboration.
+- **Human-Centered Design First:** Start with full user journeys, not isolated tasks.
+- **Physics of Flow:** Work flows "just in time" with no handoff friction.
+- **Context-Native Components:** Built directly in their live data environments.
+- **Evolutionary BDD:** Self-validating specs that evolve with usage patterns.
+- **Real Data Over Mock Data:** Edge cases are discovered during development.
+- **Dual Track Async Design/Dev:** Design informs dev at natural points—not forced checkpoints.
+- **Process-as-a-Product:** The methodology itself is subject to feedback and evolution.
+- **Event-Driven Documentation:** ADRs captured when decisions happen, not scheduled meetings.
+- **AI-Aided Design Sprints:** Compressed into hours not weeks, aided by human-curated AI.
+- **Minimal Viable Documentation:** Document where it provides the most value.
+- **User-Controlled UI:** Respect system preferences (e.g., dark mode, prefers**) and avoid anti-features like theme toggles.
+- **Async-Meeting Culture:** Replace time-wasting meetings with purposeful, async communication and focused collaboration.
+- **Lean Operations, Rich Creation:** We aggressively favor free-tier and open-source tools. Money should be spent on what directly creates user value, not on operational overhead. This keeps the team lean, agile, and focused on the joy of building, not on burn rates.
 
 * * *
 
@@ -88,46 +87,46 @@ Each stage is iterative — teams are encouraged to revisit, refine, and loop ba
 
 Tree of Life operates on a **hybrid approach** between visionary leadership and tactical execution:
 
--   **Yearly Vision:** Higher-level management provides annual direction and documents strategic goals
--   **Evolutionary Execution:** Teams adapt and refine implementation based on real-world feedback
--   **Management by Exception:** C-level involvement only when direction needs clarification or major obstacles arise
+- **Yearly Vision:** Higher-level management provides annual direction and documents strategic goals
+- **Evolutionary Execution:** Teams adapt and refine implementation based on real-world feedback
+- **Management by Exception:** C-level involvement only when direction needs clarification or major obstacles arise
 
 ### Communication Cadence
 
 **Daily: Async Standups**
 
--   Written updates via Slack/Discord/GitHub w automated prompts for missing updates
--   No synchronous meetings required
--   Focus on progress, blockers, and next steps
--   AI bot assists with note-taking and ticket creation
+- Written updates via Slack/Discord/GitHub w automated prompts for missing updates
+- No synchronous meetings required
+- Focus on progress, blockers, and next steps
+- AI bot assists with note-taking and ticket creation
 
 **Weekly: Encouragement & Alignment**
 
--   30-minute team check-in focused on morale and high-level direction
--   Not a status meeting—more like "how are we feeling about this work?"
--   Rotate leadership to prevent meeting fatigue
+- 30-minute team check-in focused on morale and high-level direction
+- Not a status meeting—more like "how are we feeling about this work?"
+- Rotate leadership to prevent meeting fatigue
 
 **Bi-weekly: Stakeholder Previews**
 
--   Share Vercel preview links with light commentary
--   Stakeholders provide feedback asynchronously
--   Focus on "is this the right direction?" rather than pixel-perfect feedback
+- Share Vercel preview links with light commentary
+- Stakeholders provide feedback asynchronously
+- Focus on "is this the right direction?" rather than pixel-perfect feedback
 
 **Monthly: Strategic Alignment**
 
--   Leadership reviews overall direction and priorities
--   Adjust course based on Stage 7 monitoring data
--   Plan resource allocation and team needs
+- Leadership reviews overall direction and priorities
+- Adjust course based on Stage 7 monitoring data
+- Plan resource allocation and team needs
 
 ### Blocker Resolution Protocol
 
--   **Real-time via Chat:** Blockers are resolved immediately between the blocked person and the blocker
--   **AI Assistant:** Bot monitors conversations and suggests creating tickets or escalating to team
--   **No Meeting Required:** Most blockers can be resolved through quick chat or screen share
+- **Real-time via Chat:** Blockers are resolved immediately between the blocked person and the blocker
+- **AI Assistant:** Bot monitors conversations and suggests creating tickets or escalating to team
+- **No Meeting Required:** Most blockers can be resolved through quick chat or screen share
 
 * * *
 
-## 🕰️ Sustainable Work Rhythm
+## 🕰️ The Sustainable Work Rhythm
 
 ### The 4.5-Day Week Structure
 
@@ -157,18 +156,18 @@ Friday:    OFF
 
 ### Day-Type Definitions (to be validated)
 
--   **Deep Work:** Individual coding, design, or spec writing with minimal interruptions
--   **Collaboration:** Pair programming, design reviews, planning discussions
--   **Development:** Implementation, testing, and integration work
--   **Review/Feedback:** Code review, stakeholder feedback, BDD spec validation
--   **Planning/Cleanup:** Retrospectives, technical debt, process improvement
+- **Deep Work:** Individual coding, design, or spec writing with minimal interruptions
+- **Collaboration:** Pair programming, design reviews, planning discussions
+- **Development:** Implementation, testing, and integration work
+- **Review/Feedback:** Code review, stakeholder feedback, BDD spec validation
+- **Planning/Cleanup:** Retrospectives, technical debt, process improvement
 
 ### Benefits
 
--   **3-day weekends every other week** for creative rest and personal time
--   **Predictable rhythm** that teams can plan around
--   **Focused work blocks** that reduce context switching
--   **Built-in rest** that research shows is essential for creative work
+- **3-day weekends every other week** for creative rest and personal time
+- **Predictable rhythm** that teams can plan around
+- **Focused work blocks** that reduce context switching
+- **Built-in rest** that research shows is essential for creative work
 
 * * *
 
@@ -180,28 +179,28 @@ An AI bot monitors team communications and provides intelligent assistance:
 
 **Proactive Suggestions:**
 
--   "Should I create a ticket for that feature request?"
--   "This sounds like it might affect the user onboarding spec—want me to flag it?"
--   "I noticed this technical discussion might warrant an ADR"
+- "Should I create a ticket for that feature request?"
+- "This sounds like it might affect the user onboarding spec—want me to flag it?"
+- "I noticed this technical discussion might warrant an ADR"
 
 **Automatic Note-Taking:**
 
--   Summarizes ad-hoc technical discussions
--   Extracts action items and decisions
--   Links conversations to relevant GitHub issues or specs
+- Summarizes ad-hoc technical discussions
+- Extracts action items and decisions
+- Links conversations to relevant GitHub issues or specs
 
 **Context Awareness:**
 
--   Understands current sprint goals and feature development
--   Recognizes when conversations drift from implementation to design
--   Suggests moving detailed technical discussions to appropriate channels
+- Understands current sprint goals and feature development
+- Recognizes when conversations drift from implementation to design
+- Suggests moving detailed technical discussions to appropriate channels
 
 ### Implementation Approach
 
--   **Start Simple:** Basic Slack/Discord integration with keyword recognition
--   **Evolve Gradually:** Add more sophisticated context awareness over time
--   **Privacy First:** Team controls what the AI can access and suggest
--   **Human Override:** All AI suggestions require human approval before action
+- **Start Simple:** Basic Slack/Discord integration with keyword recognition
+- **Evolve Gradually:** Add more sophisticated context awareness over time
+- **Privacy First:** Team controls what the AI can access and suggest
+- **Human Override:** All AI suggestions require human approval before action
 
 * * *
 
@@ -213,35 +212,35 @@ Rather than fighting technical debt, Tree of Life embraces technological evoluti
 
 **Lightweight but Powerful:**
 
--   Choose libraries with excellent documentation and strong communities
--   Prioritize simplicity over premature optimization
--   Focus on standards-based solutions that age well
+- Choose libraries with excellent documentation and strong communities
+- Prioritize simplicity over premature optimization
+- Focus on standards-based solutions that age well
 
 **AI-Assisted Migration:**
 
--   Document architectural decisions to support future AI-powered refactoring
--   Maintain clear component boundaries for easier replacement
--   Use TypeScript and structured schemas to support automated code generation
+- Document architectural decisions to support future AI-powered refactoring
+- Maintain clear component boundaries for easier replacement
+- Use TypeScript and structured schemas to support automated code generation
 
 **Incremental Replacement:**
 
--   New features use current best practices
--   Legacy code is migrated opportunistically when touched
--   Avoid big-bang rewrites in favor of gradual modernization
+- New features use current best practices
+- Legacy code is migrated opportunistically when touched
+- Avoid big-bang rewrites in favor of gradual modernization
 
 ### Specification Evolution Framework
 
 **Spec Confidence Levels:**
 
--   **High Confidence:** Well-understood patterns with clear user research backing
--   **Medium Confidence:** Reasonable assumptions based on similar features
--   **Low Confidence:** Experimental features requiring heavy monitoring and iteration
+- **High Confidence:** Well-understood patterns with clear user research backing
+- **Medium Confidence:** Reasonable assumptions based on similar features
+- **Low Confidence:** Experimental features requiring heavy monitoring and iteration
 
 **Evolution Triggers:**
 
--   Stage 7 monitoring reveals different usage patterns than expected
--   Real user feedback contradicts original assumptions
--   Technical constraints emerge during development
+- Stage 7 monitoring reveals different usage patterns than expected
+- Real user feedback contradicts original assumptions
+- Technical constraints emerge during development
 
 * * *
 
@@ -253,10 +252,10 @@ Establish a unified system of record for ideas, specs, code, and decisions using
 
 In parallel, conduct a **pre-development data audit** to ensure the system starts with a shared understanding of current data reality:
 
--   **Data Inventory & Profiling:** Use tools like `prisma db pull`, AI-assisted schema generators, or exploratory queries to profile existing structures.
--   **Quality Baseline:** Define what "clean enough" looks like per key user journeys.
--   **Reality Contracts:** Treat the current database schema as a living contract. Evolve it over time rather than attempting perfection upfront.
--   **Event-Driven ADRs:** Architectural decisions are captured when they happen, using AI to assist with formatting and clarity.
+- **Data Inventory & Profiling:** Use tools like `prisma db pull`, AI-assisted schema generators, or exploratory queries to profile existing structures.
+- **Quality Baseline:** Define what "clean enough" looks like per key user journeys.
+- **Reality Contracts:** Treat the current database schema as a living contract. Evolve it over time rather than attempting perfection upfront.
+- **Event-Driven ADRs:** Architectural decisions are captured when they happen, using AI to assist with formatting and clarity.
 
 #### Data Reality Check Template
 
@@ -302,14 +301,14 @@ Artifacts at this stage are intentionally low-fidelity and disposable to avoid l
 
 Includes sketches, whiteboards, or markdown-based wireframes. The goal is to find the right problem and approach before committing to code. Integrated into GitHub Discussions for visibility.
 
--   **Design Status Tags:** Use `Do`, `Doing`, and `Done` statuses to manage design iteration.
--   **Design Definition of Done:** A sketch or flow is considered "done" when:
-    -   It solves a validated user problem
-    -   It aligns with known constraints (data, tech, UX)
-    -   It is peer-reviewed and accepted into the discussion board
-    -   It is clearly documented in markdown, Figma, or embedded artifact
-    -   It's ready to promote to spec (Stage 3)
--   **Markdown-Powered Sketching:** Use [**Mermaid**](https://mermaid-js.github.io/) or [**Markmap**](https://markmap.js.org/) to create diagrams directly in Discussions or markdown files:
+- **Design Status Tags:** Use `Do`, `Doing`, and `Done` statuses to manage design iteration.
+- **Design Definition of Done:** A sketch or flow is considered "done" when:
+  - It solves a validated user problem
+  - It aligns with known constraints (data, tech, UX)
+  - It is peer-reviewed and accepted into the discussion board
+  - It is clearly documented in markdown, Figma, or embedded artifact
+  - It's ready to promote to spec (Stage 3)
+- **Markdown-Powered Sketching:** Use [**Mermaid**](https://mermaid-js.github.io/) or [**Markmap**](https://markmap.js.org/) to create diagrams directly in Discussions or markdown files:
 
 ```mermaid
 flowchart TD
@@ -318,12 +317,12 @@ flowchart TD
     B -->|Click Y| D[Path B]
 ```
 
--   **Cross-Stage Visibility:** When validated, sketches can be preserved in `design-archive/` folders or linked to specs.
--   **AI-Aided Variation:** Prompt AI to generate alternative flows for comparison:
+- **Cross-Stage Visibility:** When validated, sketches can be preserved in `design-archive/` folders or linked to specs.
+- **AI-Aided Variation:** Prompt AI to generate alternative flows for comparison:
     
     > "Generate three design variations for onboarding that reduce drop-off at step two."
     
--   **Iterative by Design:** Expect to return to this stage as specs or components raise new insights.
+- **Iterative by Design:** Expect to return to this stage as specs or components raise new insights.
 
 ### Stage 3: Self-Validating Specifications
 
@@ -345,44 +344,44 @@ Feature: User onboarding flow
     Then they should see a welcome screen
 ```
 
--   **Feature:** The high-level user value
--   **Scenario:** A single outcome or journey path
--   **Given/When/Then:** The sequence of user behavior and expected results
+- **Feature:** The high-level user value
+- **Scenario:** A single outcome or journey path
+- **Given/When/Then:** The sequence of user behavior and expected results
 
 #### ✅ What Makes a Spec "Done"?
 
 A self-validating spec is considered ready when:
 
--   The problem is validated via Design (Stage 2)
--   The journey is expressed in plain language and testable steps
--   It includes real-world edge cases (e.g. bad input, missing data)
--   It includes confidence level assessment (High/Medium/Low)
--   It is peer-reviewed and merged into the `specs/` folder
--   It runs as a Playwright or Cucumber test
--   It passes with current data or raises intentional failures for edge cases
+- The problem is validated via Design (Stage 2)
+- The journey is expressed in plain language and testable steps
+- It includes real-world edge cases (e.g. bad input, missing data)
+- It includes confidence level assessment (High/Medium/Low)
+- It is peer-reviewed and merged into the `specs/` folder
+- It runs as a Playwright or Cucumber test
+- It passes with current data or raises intentional failures for edge cases
 
 #### 🎯 Spec Confidence Levels
 
 **High Confidence Specs:**
 
--   Based on validated user research or established patterns
--   Clear success metrics defined
--   Comprehensive test coverage required
--   Minimal expected changes during development
+- Based on validated user research or established patterns
+- Clear success metrics defined
+- Comprehensive test coverage required
+- Minimal expected changes during development
 
 **Medium Confidence Specs:**
 
--   Reasonable assumptions based on similar features
--   Basic success metrics defined
--   Standard test coverage
--   Some iteration expected
+- Reasonable assumptions based on similar features
+- Basic success metrics defined
+- Standard test coverage
+- Some iteration expected
 
 **Low Confidence Specs:**
 
--   Experimental features or new problem domains
--   Hypothesis-driven metrics
--   Lightweight test coverage initially
--   Heavy iteration and monitoring expected
+- Experimental features or new problem domains
+- Hypothesis-driven metrics
+- Lightweight test coverage initially
+- Heavy iteration and monitoring expected
 
 #### 🧐 UX-Risk-Based Testing Strategy
 
@@ -398,16 +397,16 @@ This approach saves effort on boilerplate while focusing deeply on what's risky 
 
 #### 🛠️ Tools & Integration
 
--   **Playwright + Cucumber:** Automates `.feature` specs as browser-based end-to-end tests
--   **Test Runs in CI:** Every commit runs all passing `.feature` files using real or seeded data
--   **PR Hooks:** Specs required for any new feature before merge
--   **Fallback Tests (Optional):** Manual or snapshot tests for visual diffing, etc.
+- **Playwright + Cucumber:** Automates `.feature` specs as browser-based end-to-end tests
+- **Test Runs in CI:** Every commit runs all passing `.feature` files using real or seeded data
+- **PR Hooks:** Specs required for any new feature before merge
+- **Fallback Tests (Optional):** Manual or snapshot tests for visual diffing, etc.
 
 #### ♻️ Evolutionary Feedback Loop
 
--   Failed tests signal **spec drift**—revisit design or refine the expectation
--   Usage analytics (Stage 7) inform spec updates
--   AI can suggest edits or identify untested paths
+- Failed tests signal **spec drift**—revisit design or refine the expectation
+- Usage analytics (Stage 7) inform spec updates
+- AI can suggest edits or identify untested paths
 
 Example AI prompt:
 
@@ -423,18 +422,18 @@ Stage 4 is where code meets reality. Instead of developing components in isolati
 
 #### 🧬 Context-Native Development
 
--   Components are built **inside their intended context**, not abstracted sandboxes.
--   Instead of "design to dev handoff," the developer works from the spec and real user data simultaneously.
--   Edge cases are surfaced automatically, not weeks later during QA.
--   Flow between spec (Stage 3) → component → feedback (Stage 5) is seamless.
+- Components are built **inside their intended context**, not abstracted sandboxes.
+- Instead of "design to dev handoff," the developer works from the spec and real user data simultaneously.
+- Edge cases are surfaced automatically, not weeks later during QA.
+- Flow between spec (Stage 3) → component → feedback (Stage 5) is seamless.
 
 #### 📚 Design System in Code
 
 Instead of a separate design token file or Figma library, the system evolves in the codebase with a three-tier component architecture:
 
--   **Design Tokens via Tailwind**: Define consistent colors, spacing, etc.
--   **Linting for Consistency**: Enforce rules like spacing, typography, or a11y
--   **Docs generated from spec and displayed in Component Book (kitchen sink)**: Each component documented in context
+- **Design Tokens via Tailwind**: Define consistent colors, spacing, etc.
+- **Linting for Consistency**: Enforce rules like spacing, typography, or a11y
+- **Docs generated from spec and displayed in Component Book (kitchen sink)**: Each component documented in context
 
 ```css
 // globals.css
@@ -454,10 +453,10 @@ Instead of a separate design token file or Figma library, the system evolves in 
 
 **🔹 1. Atoms → /components/ui** 💡 **Purpose:** Reusable building blocks. Pure presentation. 📦 **Contents:** Buttons, Inputs, Icons, Avatars, etc.
 
--   No business/domain knowledge
--   No layout assumptions
--   Just props in → UI out
--   Fully covered by the design system
+- No business/domain knowledge
+- No layout assumptions
+- Just props in → UI out
+- Fully covered by the design system
 
 ```tsx
 // Button.tsx
@@ -553,10 +552,10 @@ export function TouchTarget({ children }) {
 
 **🔸 2. Features → /components/features** 💡 **Purpose:** Domain-aware components that implement flows or page-specific functionality 📦 **Contents:** SignupForm, ProductList, UserProfileCard, CommentThread
 
--   Composes multiple atoms
--   Can contain logic (e.g., fetch, validation)
--   Bound to business domain or app feature
--   Mapped directly to .feature files
+- Composes multiple atoms
+- Can contain logic (e.g., fetch, validation)
+- Bound to business domain or app feature
+- Mapped directly to .feature files
 
 ```tsx
 // SignupForm.tsx
@@ -575,9 +574,9 @@ export function SignupForm() {
 
 **🟦 3. Layouts → /app/layout.tsx (or /layouts)** 💡 **Purpose:** Structural container for pages 📦 **Contents:** Header, Footer, Sidebar, Page shell using CSS Grid
 
--   Defines grid-template-areas and placement
--   Rarely needs logic (though can conditionally show/hide sections)
--   Controls flow/responsiveness — e.g. how aside, main, footer shift on small screens
+- Defines grid-template-areas and placement
+- Rarely needs logic (though can conditionally show/hide sections)
+- Controls flow/responsiveness — e.g. how aside, main, footer shift on small screens
 
 ```tsx
 // layout.tsx
@@ -629,17 +628,17 @@ export default function Layout({ children }) {
 
 A component is considered complete when:
 
--   It fulfills a corresponding `.feature` scenario
--   It handles both typical and messy real-world data
--   It uses tokens, styles, and patterns from the shared system
--   It is covered by an automated test or manual test case
--   It's reviewed in a PR with a Vercel preview or similar
--   It gracefully degrades if data is missing or invalid
+- It fulfills a corresponding `.feature` scenario
+- It handles both typical and messy real-world data
+- It uses tokens, styles, and patterns from the shared system
+- It is covered by an automated test or manual test case
+- It's reviewed in a PR with a Vercel preview or similar
+- It gracefully degrades if data is missing or invalid
 
 #### 🔁 Bidirectional Flow
 
--   **Upstream to Design:** Building reveals missing states or complexity → Design (Stage 2) revisits flows.
--   **Downstream to Feedback:** Working code is immediately deployed for review in Stage 5.
+- **Upstream to Design:** Building reveals missing states or complexity → Design (Stage 2) revisits flows.
+- **Downstream to Feedback:** Working code is immediately deployed for review in Stage 5.
 
 ```tsx
 // UserCard.tsx
@@ -667,39 +666,39 @@ This stage provides the foundational technology, infrastructure, and feedback me
 
 #### Tech Stack Highlights
 
--   **Monorepo with Turborepo:** Enables sharing components, BDD specs, utilities, and data contracts between clean and legacy projects. Supports incremental builds and remote caching optimized for Vercel deployments.
--   **Data Layer - Prisma:** Type-safe ORM that connects your database schema to your application code. It acts as the single source of truth for data models, providing a seamless bridge between the database and frontend.
--   **Database - Vercel Postgres:** Fully managed, scalable PostgreSQL database optimized for Vercel. Supports instant deployments and scales transparently.
--   **Framework - Next.js (App Router):** Industry-standard React framework offering server-side rendering, incremental static regeneration, and edge functions for performance and scalability.
--   **Language - TypeScript:** Strongly typed superset of JavaScript ensuring type safety and improved developer experience.
--   **Styling - Tailwind CSS:** Utility-first CSS framework for rapid UI development with enforced design system consistency.
--   **Security & Quality:** Integrated Dependabot, CodeQL static analysis, and other tools catch vulnerabilities early.
+- **Monorepo with Turborepo:** Enables sharing components, BDD specs, utilities, and data contracts between clean and legacy projects. Supports incremental builds and remote caching optimized for Vercel deployments.
+- **Data Layer - Prisma:** Type-safe ORM that connects your database schema to your application code. It acts as the single source of truth for data models, providing a seamless bridge between the database and frontend.
+- **Database - Vercel Postgres:** Fully managed, scalable PostgreSQL database optimized for Vercel. Supports instant deployments and scales transparently.
+- **Framework - Next.js (App Router):** Industry-standard React framework offering server-side rendering, incremental static regeneration, and edge functions for performance and scalability.
+- **Language - TypeScript:** Strongly typed superset of JavaScript ensuring type safety and improved developer experience.
+- **Styling - Tailwind CSS:** Utility-first CSS framework for rapid UI development with enforced design system consistency.
+- **Security & Quality:** Integrated Dependabot, CodeQL static analysis, and other tools catch vulnerabilities early.
 
 #### Feedback & Workflow Integration
 
--   **Vercel Preview Deployments:** Every branch gets an instant, shareable preview environment. Stakeholders can interact with real functionality and provide early feedback.
--   **Pull Request Comments:** Integrated with previews, allowing contextual discussion on changes.
--   **Automated CI Tests:** Playwright & Cucumber specs run on every push, validating that features match specs in real data environments.
--   **Shared Component Library:** Encourages reuse and design consistency. Changes propagate through the monorepo with version control.
--   **Real-Time Monitoring Hooks:** Enables feature flag toggling and quick rollback if needed.
+- **Vercel Preview Deployments:** Every branch gets an instant, shareable preview environment. Stakeholders can interact with real functionality and provide early feedback.
+- **Pull Request Comments:** Integrated with previews, allowing contextual discussion on changes.
+- **Automated CI Tests:** Playwright & Cucumber specs run on every push, validating that features match specs in real data environments.
+- **Shared Component Library:** Encourages reuse and design consistency. Changes propagate through the monorepo with version control.
+- **Real-Time Monitoring Hooks:** Enables feature flag toggling and quick rollback if needed.
 
 #### Process Health Monitoring
 
 **Retrospective Triggers:**
 
--   When features take >2 weeks to get user feedback
--   When >30% of BDD specs fail in production
--   When component rework exceeds new development time
--   When stakeholder feedback conflicts with established specs
+- When features take >2 weeks to get user feedback
+- When >30% of BDD specs fail in production
+- When component rework exceeds new development time
+- When stakeholder feedback conflicts with established specs
 
 **Quality Gates:**
 
--   All new features must have corresponding BDD specs
--   All components must handle null/undefined data gracefully
--   All API changes must be backwards compatible or properly versioned
--   All PRs must include preview deployment links
+- All new features must have corresponding BDD specs
+- All components must handle null/undefined data gracefully
+- All API changes must be backwards compatible or properly versioned
+- All PRs must include preview deployment links
 
-#### Development Tooling Example: Component Inspector
+#### Development Tooling Example: Component Inspector (explore mightymeld)
 
 As an example of how Stage 5 tooling supports the Tree of Life methodology, we can look at the Component Inspector - a development tool that allows developers to browse and inspect components directly in their development environment.
 
@@ -842,8 +841,8 @@ This Component Inspector exemplifies how Stage 5 tooling supports the entire Tre
 
 #### Iteration & Improvement
 
--   This stage continuously evolves alongside the other stages, with tech stack upgrades, testing enhancements, and feedback mechanisms refined over time.
--   Stakeholder feedback loops ensure alignment and reduce costly rework downstream.
+- This stage continuously evolves alongside the other stages, with tech stack upgrades, testing enhancements, and feedback mechanisms refined over time.
+- Stakeholder feedback loops ensure alignment and reduce costly rework downstream.
 
 * * *
 
@@ -853,45 +852,45 @@ The Release Cadence stage operationalizes delivery. Instead of heavyweight relea
 
 #### 🚀 Continuous Delivery, Not Continuous Chaos
 
--   **CI/CD Pipelines:** Every merge deploys to staging; production behind feature flags.
--   **Release by Feature, Not Sprint:** A feature is released when it's validated—not when the calendar says so.
--   **Feature Toggles:** Use tools like ConfigCat, Flagsmith, or custom environment toggles to control exposure.
--   **Progressive Rollouts:** Gradually enable features for internal users → beta group → everyone.
+- **CI/CD Pipelines:** Every merge deploys to staging; production behind feature flags.
+- **Release by Feature, Not Sprint:** A feature is released when it's validated—not when the calendar says so.
+- **Feature Toggles:** Use tools like ConfigCat, Flagsmith, or custom environment toggles to control exposure.
+- **Progressive Rollouts:** Gradually enable features for internal users → beta group → everyone.
 
 #### 🛎 Prioritization Flow
 
--   **Triage Board:** GitHub Projects or similar reflects current work and readiness.
--   **Decision-Making Criteria:** Value, risk, user demand, complexity, spec confidence level.
--   **Stakeholder Involvement:** Releases shared as preview links with light commentary for business review.
+- **Triage Board:** GitHub Projects or similar reflects current work and readiness.
+- **Decision-Making Criteria:** Value, risk, user demand, complexity, spec confidence level.
+- **Stakeholder Involvement:** Releases shared as preview links with light commentary for business review.
 
 #### Risk Management During Releases
 
--   **Rollback Strategy:** Every release includes automated rollback triggers
--   **Canary Deployments:** High-risk features get gradual exposure
--   **Real-User Monitoring:** Stage 7 metrics inform immediate post-release decisions
--   **Communication Plan:** Clear escalation path for issues discovered in production
+- **Rollback Strategy:** Every release includes automated rollback triggers
+- **Canary Deployments:** High-risk features get gradual exposure
+- **Real-User Monitoring:** Stage 7 metrics inform immediate post-release decisions
+- **Communication Plan:** Clear escalation path for issues discovered in production
 
 #### 🧰 Tools
 
--   **Vercel / Netlify / Railway:** Instant deploy previews and simple rollback.
--   **ConfigCat / Flagsmith / LaunchDarkly:** Feature flagging platforms.
--   **Github Projects / Linear:** Workflow and prioritization boards.
+- **Vercel / Netlify / Railway:** Instant deploy previews and simple rollback.
+- **ConfigCat / Flagsmith / LaunchDarkly:** Feature flagging platforms.
+- **Github Projects / Linear:** Workflow and prioritization boards.
 
 #### 🔁 Feedback to Prior Stages
 
--   Real feedback from feature use helps improve specs (Stage 3) and designs (Stage 2).
--   Rollout metrics inform future architecture and observability needs (Stage 5–7).
--   Minor UX issues surfaced here are triaged back into Stage 1 discussions.
+- Real feedback from feature use helps improve specs (Stage 3) and designs (Stage 2).
+- Rollout metrics inform future architecture and observability needs (Stage 5–7).
+- Minor UX issues surfaced here are triaged back into Stage 1 discussions.
 
 #### ✅ "Done" Means Shipped & Stable
 
 A feature is considered complete at this stage when:
 
--   It's deployed to production with appropriate flags or rollouts
--   It's observed in the wild via metrics or behavior
--   It meets the original spec criteria and generates no critical errors
--   It's documented in changelogs or release notes
--   It's safe to move on without debt or ambiguity
+- It's deployed to production with appropriate flags or rollouts
+- It's observed in the wild via metrics or behavior
+- It meets the original spec criteria and generates no critical errors
+- It's documented in changelogs or release notes
+- It's safe to move on without debt or ambiguity
 
 * * *
 
@@ -901,50 +900,50 @@ This final stage ensures that deployed features deliver the intended value and f
 
 #### 📊 Feature Impact Monitoring
 
--   **Core Metric Tracking:** Tie each feature to one or more measurable outcomes: usage rate, conversion, retention, satisfaction, etc.
--   **Spec Confidence Validation:** Track how High/Medium/Low confidence specs perform in reality
--   **Observability Hooks:** Implement structured logging and analytics events at key user touchpoints.
--   **Session Replay (Optional):** Use tools like Highlight or LogRocket to view edge cases visually.
+- **Core Metric Tracking:** Tie each feature to one or more measurable outcomes: usage rate, conversion, retention, satisfaction, etc.
+- **Spec Confidence Validation:** Track how High/Medium/Low confidence specs perform in reality
+- **Observability Hooks:** Implement structured logging and analytics events at key user touchpoints.
+- **Session Replay (Optional):** Use tools like Highlight or LogRocket to view edge cases visually.
 
 #### 🧪 Outcome Validation
 
--   **Compare Actual vs Intended:** Each feature's success is measured against its original BDD spec intent.
--   **Confidence Level Assessment:** Validate whether High/Medium/Low confidence assignments were accurate
--   **Alert on Drift:** Sudden changes in behavior, performance, or engagement trigger follow-up reviews.
--   **Experimentation:** A/B test feature variants to optimize outcomes.
+- **Compare Actual vs Intended:** Each feature's success is measured against its original BDD spec intent.
+- **Confidence Level Assessment:** Validate whether High/Medium/Low confidence assignments were accurate
+- **Alert on Drift:** Sudden changes in behavior, performance, or engagement trigger follow-up reviews.
+- **Experimentation:** A/B test feature variants to optimize outcomes.
 
 #### Learning Integration
 
--   **Spec Evolution:** Usage patterns inform updates to `.feature` files
--   **Design Pattern Library:** Successful patterns are documented for reuse
--   **Anti-Pattern Documentation:** Failed approaches are recorded to prevent repetition
--   **Process Refinement:** Methodology itself is adjusted based on what works
+- **Spec Evolution:** Usage patterns inform updates to `.feature` files
+- **Design Pattern Library:** Successful patterns are documented for reuse
+- **Anti-Pattern Documentation:** Failed approaches are recorded to prevent repetition
+- **Process Refinement:** Methodology itself is adjusted based on what works
 
 #### 📈 Tools
 
--   **PostHog / Plausible / Amplitude:** Event-based user behavior analytics.
--   **Highlight / Sentry / LogRocket:** Frontend session recording and error tracking.
--   **Grafana / Prometheus:** System-level performance and uptime metrics.
--   **Playwright Traces:** Detect regressions in test coverage over time.
+- **PostHog / Plausible / Amplitude:** Event-based user behavior analytics.
+- **Highlight / Sentry / LogRocket:** Frontend session recording and error tracking.
+- **Grafana / Prometheus:** System-level performance and uptime metrics.
+- **Playwright Traces:** Detect regressions in test coverage over time.
 
 #### 🔁 Feedback to All Stages
 
 Insights from this stage flow backward:
 
--   Back to **Design**: Real user behavior reveals missed assumptions.
--   Back to **Specs**: Behavior patterns or regressions suggest updates to `.feature` files.
--   Back to **Tech Stack**: Errors or bottlenecks suggest architectural improvements.
--   Back to **Process**: Methodology improvements based on what's working or failing.
+- Back to **Design**: Real user behavior reveals missed assumptions.
+- Back to **Specs**: Behavior patterns or regressions suggest updates to `.feature` files.
+- Back to **Tech Stack**: Errors or bottlenecks suggest architectural improvements.
+- Back to **Process**: Methodology improvements based on what's working or failing.
 
 #### ✅ "Done" Means Verified & Learned
 
 A feature's lifecycle completes when:
 
--   It has demonstrable impact or insight (positive or negative)
--   It has confirmed metrics aligned with its original goal
--   Its learnings inform the next iteration, spec, or design
--   Its patterns are documented for future reference
--   Team has confidence in similar future features
+- It has demonstrable impact or insight (positive or negative)
+- It has confirmed metrics aligned with its original goal
+- Its learnings inform the next iteration, spec, or design
+- Its patterns are documented for future reference
+- Team has confidence in similar future features
 
 * * *
 
@@ -973,10 +972,10 @@ A feature's lifecycle completes when:
 
 ### Future Enhancements
 
--   **Calendar Management Tool** (4.5-day week scheduling)
--   **Advanced AI Assistance** (code generation, spec evolution)
--   **Integration Marketplace** (third-party tool connectors)
--   **Analytics Dashboard** (process health monitoring)
+- **Calendar Management Tool** (4.5-day week scheduling)
+- **Advanced AI Assistance** (code generation, spec evolution)
+- **Integration Marketplace** (third-party tool connectors)
+- **Analytics Dashboard** (process health monitoring)
 
 * * *
 
@@ -984,32 +983,28 @@ A feature's lifecycle completes when:
 
 **Level 1 - Functional**
 
--   Basic workflow operational across all 7 stages
--   Team comfortable with async communication
--   BDD specs covering core user journeys
--   Preview deployments working consistently
+- Basic workflow operational across all 7 stages
+- Team comfortable with async communication
+- BDD specs covering core user journeys
+- Preview deployments working consistently
 
 **Level 2 - Optimized**
 
--   Feedback loops working smoothly between stages
--   AI assistant providing helpful suggestions
--   Component library being actively reused
--   Stakeholder satisfaction with communication rhythm
+- Feedback loops working smoothly between stages
+- AI assistant providing helpful suggestions
+- Component library being actively reused
+- Stakeholder satisfaction with communication rhythm
 
 **Level 3 - Adaptive**
 
--   Process evolves based on Stage 7 monitoring data
--   Team proactively identifies and resolves bottlenecks
--   Specs accurately evolve with user behavior
--   Technical debt managed through incremental improvement
+- Process evolves based on Stage 7 monitoring data
+- Team proactively identifies and resolves bottlenecks
+- Specs accurately evolve with user behavior
+- Technical debt managed through incremental improvement
 
 **Level 4 - Predictive**
 
--   Feature outcomes reliably anticipated
--   Team can estimate confidence levels accurately
--   Process improvements identified before problems occur
--   Framework serves as model for other teams
-
-* * *
-
-This Tree of Life framework represents a comprehensive approach to modern product development that balances speed with quality, embraces technological evolution, and keeps human needs at the center of everything we build.
+- Feature outcomes reliably anticipated
+- Team can estimate confidence levels accurately
+- Process improvements identified before problems occur
+- Framework serves as model for other teams
