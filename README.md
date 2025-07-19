@@ -1,4 +1,10 @@
-# Turborepo starter
+
+# Attribution
+
+Project Name was created by Scott C Romack and several helpful robots. 
+This work is free for any use, provided attribution is given.
+
+## Turborepo starter
 
 This Turborepo starter is maintained by the Turborepo core team.
 
