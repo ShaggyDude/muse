@@ -6,42 +6,6 @@
 
 ## 🌿 Process Flow Visualization
 
-```mermaid
-graph TD
-  subgraph " "
-      direction LR
-      subgraph "PREP"
-          direction TB
-          S1("<b>Stage 1</b><br/>Communication, Tracking<br/>& Data Discovery")
-      end
-
-      subgraph "DESIGN ↔ DEVELOP (Parallel & Iterative)"
-          direction TB
-          S2("<b>Stage 2</b><br/>Ideation &<br/>Lo-Fi Exploration")
-          S3("<b>Stage 3</b><br/>Self-Validating<br/>Specifications (BDD)")
-          S4("<b>Stage 4</b><br/>Direct Development<br/>with Real Data")
-          S5("<b>Stage 5</b><br/>Core Tech Stack<br/>& Feedback")
-
-          S2 <--> S3
-          S3 <--> S4
-          S4 <--> S5
-          S5 --> S2
-      end
-
-      subgraph "LAUNCH & LEARN"
-          direction TB
-          S6("<b>Stage 6</b><br/>Release Cadence")
-          S7("<b>Stage 7</b><br/>Monitoring, Observability<br/>& Impact")
-      end
-
-      S1 --> S2
-      S5 --> S6
-      S6 --> S7
-      S7 -.->|Insights &<br/>New Ideas| S1
-      S7 -.->|Refine Specs| S3
-      S7 -.->|Improve Designs| S2
-  end
-```
 
 * * *
 

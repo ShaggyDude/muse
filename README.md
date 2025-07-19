@@ -1,8 +1,11 @@
 
 # Attribution
 
-Project Name was created by Scott C Romack and several helpful robots. 
-This work is free for any use, provided attribution is given.
+✨ *Muse: A Manifesto for Joyful Creation*  
+Authored by **Scott C Romack** and several helpful robots.  
+This work is free for any use, but **attribution is required**.
+
+----------
 
 ## Turborepo starter
 
