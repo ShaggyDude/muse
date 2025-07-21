@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#000000",
+  themeColor: "#111111",
 };
 
 export default function RootLayout({
@@ -32,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable}`}>
+      <body className={`${geistSans.variable} bg-white text-black `}>
         {children}
       </body>
     </html>

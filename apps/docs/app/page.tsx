@@ -35,7 +35,7 @@ export default function Home() {
         backgroundAttachment: "fixed",
       }}
     >
-      <div className="absolute inset-0 bg-black/70" />
+      <div className=" inset-0 bg-black/95 text-white/95 absolute" />
       <main className="relative z-10 flex w-full max-w-5xl flex-col items-center gap-16">
         <header className="w-full space-y-4">
           <h1 className="text-5xl font-bold tracking-tight text-blue-400 sm:text-6xl">

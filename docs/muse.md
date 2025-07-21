@@ -1,13 +1,18 @@
-# Tree of Life: A Virtuous Cycle of Adaptive Product Development
+---
 
-## A modern, AI-accelerated process built on decades of experience.** It merges human-centered design, evolutionary specifications, and real-world data to deliver the right features—faster, leaner, and with higher confidence.
-
-### Let your language sing—economical but unmistakable
+# Muse: A Manifesto for Joyful Creation (overview)
 
 ---
+
+# The Joy Has Been Lost from The Creative Process
+
+## 🌿 "Muse Flow (music)“ – 5 Movements from Jobs-to-be-Done to Working Code
+
+---
+
 ## 🌿 Process Stages Overview
 
-The Tree of Life methodology flows through seven **iterative stages**, grouped into three main **phases**. **Design and Development operate in parallel**, with each stage continuously informing the others.
+Muse flows through seven **iterative stages**, grouped into three main **phases**. **Design and Development operate in parallel**, with each stage continuously informing the others.
 
 | Phase        | Stage | Name                                     | Purpose      |
 | -------- | ----- | ----------------------- | -------------- |
@@ -45,7 +50,7 @@ Each stage is iterative — teams are encouraged to revisit, refine, and loop ba
 
 ### Unified Leadership, Natural Flow
 
-Tree of Life operates on a **hybrid approach** between visionary leadership and tactical execution:
+Muse operates on a **hybrid approach** between visionary leadership and tactical execution:
 
 - **Yearly Vision:** Higher-level management provides annual direction and documents strategic goals
 - **Evolutionary Execution:** Teams adapt and refine implementation based on real-world feedback
@@ -168,7 +173,7 @@ An AI bot monitors team communications and provides intelligent assistance:
 
 ### Future-Friendly Architecture
 
-Rather than fighting technical debt, Tree of Life embraces technological evolution:
+Rather than fighting technical debt, Muse embraces technological evolution:
 
 **Lightweight but Powerful:**
 
@@ -660,7 +665,7 @@ This stage provides the foundational technology, infrastructure, and feedback me
 
 #### Development Tooling Example: Component Inspector (explore mightymeld)
 
-As an example of how Stage 5 tooling supports the Tree of Life methodology, we can look at the Component Inspector - a development tool that allows developers to browse and inspect components directly in their development environment.
+As an example of how Stage 5 tooling supports Muse methodology, we can look at the Component Inspector - a development tool that allows developers to browse and inspect components directly in their development environment.
 
 ```gherkin
 
@@ -797,7 +802,7 @@ Feature: Component Inspector
     And it should have a dark theme with green text on dark background
 ```
 
-This Component Inspector exemplifies how Stage 5 tooling supports the entire Tree of Life process by providing instant access to component documentation, variants, and related specs without leaving the development context.
+This Component Inspector exemplifies how Stage 5 tooling supports the entire Muse process by providing instant access to component documentation, variants, and related specs without leaving the development context.
 
 #### Iteration & Improvement
 
@@ -808,7 +813,7 @@ This Component Inspector exemplifies how Stage 5 tooling supports the entire Tre
 
 ### Stage 6: Release Cadence
 
-The Release Cadence stage operationalizes delivery. Instead of heavyweight release trains, Tree of Life emphasizes small, safe, and frequent releases driven by feature readiness—not calendar dates. This enables faster feedback, reduces risk, and allows teams to stay focused on user value.
+The Release Cadence stage operationalizes delivery. Instead of heavyweight release trains, Muse emphasizes small, safe, and frequent releases driven by feature readiness—not calendar dates. This enables faster feedback, reduces risk, and allows teams to stay focused on user value.
 
 #### 🚀 Continuous Delivery, Not Continuous Chaos
 
@@ -904,3 +909,41 @@ A feature's lifecycle completes when:
 - Its learnings inform the next iteration, spec, or design
 - Its patterns are documented for future reference
 - Team has confidence in similar future features
+
+---
+
+├── .git/
+├── .github/                 # GitHub Actions workflows
+│   └── workflows/
+│       └── ci.yml           # Example workflow for CI/CD
+├── apps/
+│   └── web/                   # Next.js application
+│       ├── public/            # Next.js static assets (images, favicons, etc.)
+│       │   ├── images/
+│       │   │   └── logo.png
+│       │   └── favicon.ico
+│       ├── src/
+│       │   ├── app/           # Next.js App Router (pages/routes)
+│       │   │   ├── layout.tsx
+│       │   │   └── page.tsx
+│       │   ├── components/    # Components specific to this app (use global styles)
+│       │   └── globals.css    # Global styles for the app, including shared Tailwind config
+│       ├── next.config.js     # Next.js configuration
+│       ├── postcss.config.mjs # PostCSS configuration
+│       └── package.json
+├── packages/
+│   ├── ui/                    # Shared UI components library
+│   │   ├── src/
+│   │   │   ├── components/
+│   │   │   │   └── button.tsx
+│   │   │   └── index.ts
+│   │   └── package.json
+│   └── utils/                 # Shared utilities functions
+│       ├── src/
+│       │   └── index.ts
+│       └── package.json
+├── node_modules/
+├── .gitignore
+├── pnpm-workspace.yaml
+├── package.json               # Root package.json
+└── turbo.json                 # Turborepo configuration
