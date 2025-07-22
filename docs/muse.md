@@ -451,32 +451,6 @@ const styles = {
     'dark:after:-inset-px dark:after:rounded-lg',
     'data-disabled:before:shadow-none data-disabled:after:shadow-none',
   ],
-  outline: [
-    'border-zinc-950/10 text-zinc-950 data-active:bg-zinc-950/2.5 data-hover:bg-zinc-950/2.5',
-    'dark:border-white/15 dark:text-white dark:[--btn-bg:transparent] dark:data-active:bg-white/5 dark:data-hover:bg-white/5',
-    '[--btn-icon:var(--color-zinc-500)] data-active:[--btn-icon:var(--color-zinc-700)] data-hover:[--btn-icon:var(--color-zinc-700)] dark:data-active:[--btn-icon:var(--color-zinc-400)] dark:data-hover:[--btn-icon:var(--color-zinc-400)]',
-  ],
-  plain: [
-    'border-transparent text-zinc-950 data-active:bg-zinc-950/5 data-hover:bg-zinc-950/5',
-    'dark:text-white dark:data-active:bg-white/10 dark:data-hover:bg-white/10',
-    '[--btn-icon:var(--color-zinc-500)] data-active:[--btn-icon:var(--color-zinc-700)] data-hover:[--btn-icon:var(--color-zinc-700)] dark:[--btn-icon:var(--color-zinc-500)] dark:data-active:[--btn-icon:var(--color-zinc-400)] dark:data-hover:[--btn-icon:var(--color-zinc-400)]',
-  ],
-  colors: {
-    'dark/zinc': [
-      'text-white [--btn-bg:var(--color-zinc-900)] [--btn-border:var(--color-zinc-950)]/90 [--btn-hover-overlay:var(--color-white)]/10',
-      'dark:text-white dark:[--btn-bg:var(--color-zinc-600)] dark:[--btn-hover-overlay:var(--color-white)]/5',
-      '[--btn-icon:var(--color-zinc-400)] data-active:[--btn-icon:var(--color-zinc-300)] data-hover:[--btn-icon:var(--color-zinc-300)]',
-    ],
-    light: [
-      'text-zinc-950 [--btn-bg:white] [--btn-border:var(--color-zinc-950)]/10 [--btn-hover-overlay:var(--color-zinc-950)]/2.5 data-active:[--btn-border:var(--color-zinc-950)]/15 data-hover:[--btn-border:var(--color-zinc-950)]/15',
-      'dark:text-white dark:[--btn-hover-overlay:var(--color-white)]/5 dark:[--btn-bg:var(--color-zinc-800)]',
-      '[--btn-icon:var(--color-zinc-500)] data-active:[--btn-icon:var(--color-zinc-700)] data-hover:[--btn-icon:var(--color-zinc-700)] dark:[--btn-icon:var(--color-zinc-500)] dark:data-active:[--btn-icon:var(--color-zinc-400)] dark:data-hover:[--btn-icon:var(--color-zinc-400)]',
-    ],
-    zinc: [
-      'text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-zinc-600)] [--btn-border:var(--color-zinc-700)]/90',
-      'dark:[--btn-hover-overlay:var(--color-white)]/5',
-      '[--btn-icon:var(--color-zinc-400)] data-active:[--btn-icon:var(--color-zinc-300)] data-hover:[--btn-icon:var(--color-zinc-300)]',
-    ],
     red: [
       'text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-red-600)] [--btn-border:var(--color-red-700)]/90',
       '[--btn-icon:var(--color-red-300)] data-active:[--btn-icon:var(--color-red-200)] data-hover:[--btn-icon:var(--color-red-200)]',
@@ -686,92 +660,7 @@ Feature: Component Inspector
     Then the component inspector panel should open from the right side
     And I should see a list of all available components
 
-  Scenario: Opening component inspector with keyboard shortcut
-    Given I am viewing any page in the application
-    When I press "Cmd+Shift+C" (or "Ctrl+Shift+C" on Windows/Linux)
-    Then the component inspector panel should open from the right side
-    And I should see a search input at the top
-    And I should see a list of all available components below
 
-  Scenario: Searching for components
-    Given the component inspector is open
-    And I can see components like "Button", "UserCard", "Modal" in the list
-    When I type "but" in the search input
-    Then I should only see components that contain "but" in their name or description
-    And the "Button" component should be visible
-    And other components should be filtered out
-
-  Scenario: Viewing component details
-    Given the component inspector is open
-    And I can see a list of components
-    When I click on the "Button" component
-    Then I should see the component detail view
-    And I should see a back button to return to the component list
-    And I should see the component name "Button" as a heading
-    And I should see the component description
-    And I should see a variant selector dropdown
-    And I should see code preview for the selected variant
-
-  Scenario: Browsing component variants
-    Given I am viewing the "Button" component details
-    And the variant selector shows "Primary" as selected
-    When I change the variant selector to "Secondary"
-    Then the code preview should update to show the secondary button code
-    And the code should be syntax highlighted
-    And I should see '<Button variant="secondary">Cancel</Button>' in the preview
-
-  Scenario: Viewing related feature specs
-    Given I am viewing a component's details
-    And the component has related BDD feature files
-    Then I should see a "Related Specs" section
-    And I should see file icons next to each spec filename
-    And the spec filenames should be clickable links
-
-  Scenario: Closing the inspector with close button
-    Given the component inspector is open
-    When I click the X button in the top-right corner
-    Then the inspector panel should close
-    And I should see the floating button again
-
-  Scenario: Closing the inspector with escape key
-    Given the component inspector is open
-    When I press the "Escape" key
-    Then the inspector panel should close
-    And I should see the floating button again
-
-  Scenario: Closing the inspector with backdrop click
-    Given the component inspector is open
-    When I click on the dark backdrop area outside the panel
-    Then the inspector panel should close
-    And I should see the floating button again
-
-  Scenario: Navigating back to component list
-    Given I am viewing a specific component's details
-    When I click the "← Back to Components" button
-    Then I should return to the component list view
-    And I should see all components listed again
-    And my previous search term should be preserved
-
-  Scenario: Inspector is hidden in production
-    Given the application is running in production mode
-    When I visit any page
-    Then I should not see the floating component inspector button
-    And pressing "Cmd+Shift+C" should not open any inspector panel
-
-  Scenario: Component count and spec indicators
-    Given the component inspector is open
-    And I can see the component list
-    When I look at each component card
-    Then I should see the number of variants for each component
-    And I should see the number of related specs for each component
-    And these should be displayed with appropriate icons
-
-  Scenario: Keyboard shortcuts help
-    Given the component inspector is open
-    When I look at the bottom of the panel
-    Then I should see keyboard shortcut hints
-    And I should see "⌘⇧C to toggle" and "ESC to close"
-    And the shortcuts should be displayed in styled kbd elements
 
   Scenario: Responsive behavior
     Given the component inspector is open
