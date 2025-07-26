@@ -1,0 +1,58 @@
+@import 'tailwindcss';
+
+/* Custom styling for the documentation */
+.nextra-container {
+  max-width: none;
+}
+
+/* Improve code blocks in MDX */
+.nextra-code {
+  @apply bg-gray-900 text-gray-100 rounded-lg;
+}
+
+/* Component showcase specific styles */
+.component-showcase {
+  @apply space-y-8;
+}
+
+.component-example {
+  @apply border rounded-lg overflow-hidden;
+}
+
+.component-preview {
+  @apply p-6 bg-white flex items-center justify-center min-h-[100px];
+}
+
+/* Live editor improvements */
+.live-editor {
+  font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 14px;
+}
+
+/* Better table styling */
+table {
+  @apply w-full border-collapse;
+}
+
+th {
+  @apply bg-gray-50 border border-gray-300 px-4 py-2 text-left font-semibold;
+}
+
+td {
+  @apply border border-gray-300 px-4 py-2;
+}
+
+/* Improved code styling */
+:not(pre) > code {
+  @apply bg-gray-100 px-1 py-0.5 rounded text-sm font-mono;
+}
+
+pre {
+  @apply bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto;
+}
+
+/* Focus states for accessibility */
+button:focus-visible,
+summary:focus-visible {
+  @apply outline-2 outline-offset-2 outline-blue-500;
+}

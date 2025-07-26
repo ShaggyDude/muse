@@ -1,13 +1,12 @@
-import withPWA from 'next-pwa';
+import nextra from 'nextra'
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+const withNextra = nextra({
+  // No theme or themeConfig options in Nextra 4
+})
 
-export default withPWA({
-  dest: 'public',
-  register: true,
-  skipWaiting: true,
-  // Note: PWA is disabled in development mode by default.
-  // To test in development, you can set disable: false
-  // disable: process.env.NODE_ENV === 'development',
-})(nextConfig);
+export default withNextra({
+  transpilePackages: ['@repo/ui'],
+  experimental: {
+    optimizePackageImports: ['@repo/ui']
+  }
+})
