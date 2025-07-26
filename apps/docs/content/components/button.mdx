@@ -1,0 +1,105 @@
+import { ComponentShowcase } from '../../components/ComponentShowcase'
+import { componentsMeta } from '@repo/ui/meta'
+import { Button } from '@repo/ui'
+
+# Button Component
+
+The Button component is a fundamental UI element that triggers actions when clicked. It follows the Muse design system principles and supports multiple variants for different use cases.
+
+## Usage
+
+```tsx
+import { Button } from '@repo/ui'
+
+function MyComponent() {
+  return (
+    <Button variant="default" onClick={() => console.log('clicked')}>
+      Click me
+    </Button>
+  )
+}
+```
+
+## Component Showcase
+
+<ComponentShowcase 
+  meta={componentsMeta.find(meta => meta.title === 'Buttons')} 
+  scope={{ Button }}
+/>
+
+## API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'default' \| 'destructive' \| 'outline' \| 'secondary' \| 'ghost' \| 'link'` | `'default'` | The visual style variant |
+| `children` | `React.ReactNode` | - | The content of the button |
+| `disabled` | `boolean` | `false` | Whether the button is disabled |
+| `onClick` | `(event: MouseEvent) => void` | - | Click event handler |
+| `className` | `string` | - | Additional CSS classes |
+
+### Variants
+
+- **Default**: Primary action button with filled background
+- **Destructive**: For dangerous actions like delete
+- **Outline**: Secondary action with border only
+- **Secondary**: Subtle secondary actions
+- **Ghost**: Minimal styling for tertiary actions
+- **Link**: Text-only button that looks like a link
+
+## Accessibility
+
+- Supports keyboard navigation with Tab and Enter/Space
+- Includes proper ARIA attributes
+- Maintains focus indicators
+- Supports screen readers
+
+## BDD Specification
+
+```gherkin
+Feature: Button Component
+  As a user interacting with the application
+  I want buttons to be clearly identifiable and responsive
+  So that I can perform actions confidently
+
+  Scenario: Button displays correctly
+    Given a button is rendered with text "Click me"
+    When I view the button
+    Then I should see the text "Click me"
+    And the button should be visually distinct
+
+  Scenario: Button responds to clicks
+    Given a button with an onClick handler
+    When I click the button
+    Then the onClick handler should be called
+
+  Scenario: Disabled button behavior
+    Given a button with disabled=true
+    When I try to interact with the button
+    Then the button should not respond to clicks
+    And it should have visual disabled styling
+```
+
+## Design Tokens
+
+The Button component uses the following design tokens:
+
+```css
+/* Colors */
+--color-primary: theme('colors.blue.600');
+--color-primary-hover: theme('colors.blue.700');
+--color-destructive: theme('colors.red.600');
+--color-destructive-hover: theme('colors.red.700');
+
+/* Spacing */
+--spacing-button-x: theme('spacing.4');
+--spacing-button-y: theme('spacing.2');
+
+/* Typography */
+--font-size-button: theme('fontSize.sm');
+--font-weight-button: theme('fontWeight.medium');
+
+/* Border Radius */
+--radius-button: theme('borderRadius.md');
+```

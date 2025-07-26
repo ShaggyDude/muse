@@ -1,0 +1,195 @@
+# Getting Started
+
+Welcome to the Muse Design System! This guide will help you get up and running with our component library and methodology.
+
+## Installation
+
+### Using npm/pnpm
+
+```bash
+# Using pnpm (recommended)
+pnpm add @repo/ui
+
+# Using npm
+npm install @repo/ui
+
+# Using yarn
+yarn add @repo/ui
+```
+
+### Peer Dependencies
+
+Make sure you have the following peer dependencies installed:
+
+```bash
+pnpm add react react-dom tailwindcss clsx
+```
+
+## Setup
+
+### 1. Configure Tailwind CSS
+
+Add our component library to your Tailwind config:
+
+```js
+// tailwind.config.js
+module.exports = {
+  content: [
+    './src/**/*.{js,ts,jsx,tsx}',
+    './node_modules/@repo/ui/**/*.{js,ts,jsx,tsx}',
+  ],
+  // ... rest of your config
+}
+```
+
+### 2. Import Styles
+
+Import the base styles in your main CSS file or app entry point:
+
+```css
+/* globals.css */
+@import 'tailwindcss';
+```
+
+### 3. First Component
+
+Import and use your first component:
+
+```tsx
+import { Button } from '@repo/ui'
+
+function App() {
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold mb-4">Hello Muse!</h1>
+      <Button variant="default">
+        Get Started
+      </Button>
+    </div>
+  )
+}
+```
+
+## Component Architecture
+
+Our design system follows a three-tier architecture:
+
+### 🔹 Atoms (`/components/ui`)
+- Pure presentation components
+- No business logic
+- Highly reusable
+- Examples: Button, Input, Icon
+
+### 🔸 Features (`/components/features`)  
+- Domain-aware components
+- Contain business logic
+- Compose multiple atoms
+- Examples: LoginForm, ProductCard
+
+### 🟦 Layouts (`/layouts`)
+- Structural containers
+- Define page organization
+- CSS Grid-based
+- Examples: AppLayout, DashboardLayout
+
+## Development Workflow
+
+### 1. BDD-First Development
+
+Every component starts with a `.feature` file:
+
+```gherkin
+Feature: New Component
+  As a user
+  I want to interact with the component
+  So that I can accomplish my goal
+
+  Scenario: Component renders correctly
+    Given the component is mounted
+    When I view the component
+    Then it should display correctly
+```
+
+### 2. Component Development
+
+Build components with real data from day one:
+
+```tsx
+// Don't: Mock data
+const mockUser = { name: 'John Doe' }
+
+// Do: Real data
+const user = await prisma.user.findFirst()
+```
+
+### 3. Documentation
+
+Document as you build using our ComponentShowcase:
+
+```tsx
+// components.meta.tsx
+export const componentsMeta = [
+  {
+    title: 'My Component',
+    component: MyComponent,
+    examples: [
+      { name: 'Default', component: <MyComponent /> },
+      { name: 'Variant', component: <MyComponent variant="special" /> }
+    ]
+  }
+]
+```
+
+## Best Practices
+
+### Accessibility First
+- Use semantic HTML elements
+- Include proper ARIA attributes
+- Test with keyboard navigation
+- Ensure sufficient color contrast
+
+### Performance
+- Components are tree-shakeable
+- Minimal bundle size impact
+- Lazy load heavy components
+- Optimize for Core Web Vitals
+
+### Consistency
+- Follow established patterns
+- Use design tokens
+- Maintain consistent spacing
+- Apply systematic color usage
+
+## Troubleshooting
+
+### Common Issues
+
+**Tailwind styles not applying:**
+- Check your Tailwind content configuration
+- Ensure the component library path is included
+- Verify CSS import order
+
+**TypeScript errors:**
+- Make sure you have compatible React types
+- Check peer dependency versions
+- Restart your TypeScript server
+
+**Component not rendering:**
+- Verify the import path
+- Check console for JavaScript errors
+- Ensure all required props are provided
+
+## Next Steps
+
+- [Explore Components](/components/button) - Browse our component library
+- [Read the Methodology](/methodology) - Learn about the Muse approach
+- [Contribute](https://github.com/your-org/muse) - Help improve the system
+
+## Support
+
+Need help? Here are your options:
+
+- 📖 Check this documentation
+- 🐛 [Report bugs](https://github.com/your-org/muse/issues)
+- 💬 Join our [Discord community](https://discord.gg/your-discord)
+- ✉️ Email us at design-system@yourcompany.com
