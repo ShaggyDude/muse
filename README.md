@@ -1,144 +1,211 @@
+# MUSE Framework
 
-# Attribution
+**A living specification language for multi-human + multi-AI software development.**
 
-✨ *Muse: A Manifesto for Joyful Creation*  
-Authored by **Scott C Romack** and several helpful robots.  
-This work is free for any use, but **attribution is required**.
+> "The work was always design. Now it's finally unified."
 
-----------
+---
 
-## Turborepo starter
+## What Is MUSE?
 
-This Turborepo starter is maintained by the Turborepo core team.
+MUSE is a design-first, evidence-driven development methodology that uses atomic capabilities (`Noun+Capability`) as a universal vocabulary, enabling:
 
-## Using this example
+- **Unified design** across product, engineering, ops, security, and business
+- **AI-powered implementation** while humans focus on "what if" exploration
+- **Continuous evolution** through DREAM → LIVE → ADAPT cycles
+- **Push-button library replacement** via behavior-driven contracts
 
-Run the following command:
+---
 
-```sh
-npx create-turbo@latest
-```
+## Core Concepts
 
-## What's inside?
+### The Vocabulary: Atomic Capabilities
 
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
+All specifications use `Noun+Capability` format:
 
 ```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+Payment+Authorize      Order+Submit         User+Authenticate
+Inventory+Reserve      Email+Send           Cart+Update
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+**Why this works:**
+- Stable contracts independent of implementation
+- Self-organizing (all `Order+*` capabilities naturally cluster)
+- Grep-able for governance (`grep "Payment+" .beads/`)
+- No vendor lock-in (capability ≠ implementation)
+
+### The Cycle: DREAM → LIVE → ADAPT
 
 ```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+DREAM (Specify Intent)
+  ↓
+Beads created with atomic capabilities
+  ↓
+LIVE (Observe Reality)
+  ↓
+ADAPT (Evolve Intent)
+  ↓
+DREAM updated (or kept unchanged)
+  ↓
+Loop continues
 ```
 
-### Develop
+**Once 80% of requirements are clear, code becomes straightforward.**
 
-To develop all apps and packages, run the following command:
+---
 
-```
-cd my-turborepo
+## Documentation
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
+### Core Framework
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
+- **[MUSE-OVERVIEW.md](./MUSE-OVERVIEW.md)** - Philosophy and principles
+- **[HowTo-DREAM.md](./HowTo-DREAM.md)** - Intent specification guide
+- **[HowTo-LIVE.md](./HowTo-LIVE.md)** - Evidence observation guide
+- **[HowTo-ADAPT.md](./HowTo-ADAPT.md)** - Evolution decision guide
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+### Templates
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
+- **[DREAM-TEMPLATE.md](./DREAM-TEMPLATE.md)** - Intent specification template
+- **[LIVE-TEMPLATE.md](./LIVE-TEMPLATE.md)** - Observation ledger template
+- **[ADAPT-TEMPLATE.md](./ADAPT-TEMPLATE.md)** - Evolution decision template
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
+### Integrations
 
-### Remote Caching
+- **[Agent Flywheel](./integrations/agent-flywheel/)** - Multi-agent orchestration methodology
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+---
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+## Quick Start
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+### 1. Define Intent (DREAM)
 
-```
-cd my-turborepo
+Create a DREAM document specifying what your system should do:
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
+```markdown
+## Compressed Intent (Section 0)
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
+- Users can authorize payments in <2s
+- Payment authorization is idempotent
+- Failed payments provide clear error messages
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+### 2. Observe Reality (LIVE)
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+Capture evidence during implementation:
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
+```markdown
+## Observations
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
+- Payment+Authorize averaged 3.5s under load (expected <2s)
+- Users confused by error message "code: 402"
 ```
 
-## Useful Links
+### 3. Evolve Design (ADAPT)
 
-Learn more about the power of Turborepo:
+Interpret evidence and propose changes:
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+```markdown
+## Proposed Intent Changes
+
+- Update latency requirement to <5s OR implement async processing
+- Rewrite error messages in plain English
+```
+
+---
+
+## The Impact
+
+### What Changes
+
+**Traditional Org Chart:**
+```
+Product (5) → Design (3) → Engineering (20) → QA (5) → Ops (3) → Security (2)
+= 38 people
+```
+
+**MUSE Org Chart:**
+```
+Specification Architects (5) + Business (2) = 7 people
++ AI handling implementation, operations, security, and testing
+```
+
+### The Key Skill
+
+**Reaching "80% known":**
+- Articulating clear capability contracts
+- Understanding user needs deeply enough to specify behavior
+- Thinking in system composition
+- Judging if implementations serve intent
+
+**The obsolete skill:**
+- Translating specs to code (AI does this faster, cheaper, with better test coverage)
+
+---
+
+## Philosophy
+
+From the [MUSE Manifesto](./MUSE_MANIFESTO.md):
+
+> "Muse stands at the timeless junction of design, architecture, software, and agriculture. From this lineage, it draws principles of clarity, elegance, harmony, ecology, and unity."
+
+**Core principles:**
+- People at the center as creative engine, not grunt worker
+- Design is executable conversation
+- Evidence drives evolution
+- Small, reversible, traceable changes
+- Code is mostly forgotten (specs are primary)
+
+---
+
+## Use Cases
+
+### Library/Vendor Replacement
+
+```
+System has Payment+Authorize spec (BDD contract)
+  ↓
+Current: Stripe adapter
+  ↓
+Tomorrow: Swap to PayPal adapter
+  ↓
+Push button → BDD suite validates
+  ↓
+Either: ✅ Passes (ship it) or ❌ Fails (fix adapter, not spec)
+```
+
+The spec never changes. Only adapters change.
+
+### User-Prompted Features
+
+```
+User in app: "I want to schedule delivery for Tuesday"
+  → System: "Creating Delivery+Schedule capability"
+  → AI generates implementation
+  → BDD validates against existing Delivery+* contracts
+  → User: "When does it ship?"
+  → System: "Live in 10 minutes"
+```
+
+---
+
+## Status
+
+**Current:** Experimental (v0.2)
+**Used by:** Sage Tech AI internal projects
+**License:** Free to use, attribution required
+
+---
+
+## Attribution
+
+Created by **Scott C Romack** with AI collaborators (Claude, Codex, Gemini).
+
+Part of the [Sage Tech AI](https://sage-tech.ai) ecosystem.
+
+---
+
+## Contributing
+
+MUSE is evolving through real-world usage. Feedback, examples, and improvements welcome.
+
+See [integrations/agent-flywheel/](./integrations/agent-flywheel/) for a complete implementation example.
