@@ -7,7 +7,7 @@
 ## Example 1: Straightforward Epic (Keep Unchanged)
 
 **Epic:** Add user notification preferences
-**Bead:** mechanic-n7p
+**Bead:** sage-n7p
 **Outcome:** Intent clear, implementation smooth, loop closes in 1 cycle
 
 ---
@@ -17,7 +17,7 @@
 ```bash
 # Human creates epic
 bd create "Add user notification preferences" --type=epic --priority=2
-# → mechanic-n7p
+# → sage-n7p
 ```
 
 ---
@@ -26,14 +26,14 @@ bd create "Add user notification preferences" --type=epic --priority=2
 
 **Initialize canvas:**
 ```bash
-bd dream mechanic-n7p --init
+bd dream sage-n7p --init
 ```
 
-**Human fills Section 0 (`.beads/dreams/mechanic-n7p.md`):**
+**Human fills Section 0 (`.beads/dreams/sage-n7p.md`):**
 
 ```markdown
 ---
-epic_id: mechanic-n7p
+epic_id: sage-n7p
 status: intent_forming
 created: 2026-01-20T10:00:00Z
 ---
@@ -87,7 +87,7 @@ None at this stage.
 
 **Validate and unlock:**
 ```bash
-bd dream mechanic-n7p --ready
+bd dream sage-n7p --ready
 # ✓ Section 0 complete
 # ✓ Status: ready_to_render
 ```
@@ -101,58 +101,58 @@ bd dream mechanic-n7p --ready
 ```bash
 # Backend
 bd create "Add User+SetEmailNotifications capability" \
-  --parent=mechanic-n7p \
-  --dream-anchor=mechanic-n7p#User+SetEmailNotifications \
+  --parent=sage-n7p \
+  --dream-anchor=sage-n7p#User+SetEmailNotifications \
   --type=task \
   --priority=2
-# → mechanic-n7p.1
+# → sage-n7p.1
 
 bd create "Add User+SetPushNotifications capability" \
-  --parent=mechanic-n7p \
-  --dream-anchor=mechanic-n7p#User+SetPushNotifications \
+  --parent=sage-n7p \
+  --dream-anchor=sage-n7p#User+SetPushNotifications \
   --type=task \
   --priority=2
-# → mechanic-n7p.2
+# → sage-n7p.2
 
 bd create "Add User+SetNotificationFrequency capability" \
-  --parent=mechanic-n7p \
-  --dream-anchor=mechanic-n7p#User+SetNotificationFrequency \
+  --parent=sage-n7p \
+  --dream-anchor=sage-n7p#User+SetNotificationFrequency \
   --type=task \
   --priority=2
-# → mechanic-n7p.3
+# → sage-n7p.3
 
 # Frontend
 bd create "Add preferences UI in settings" \
-  --parent=mechanic-n7p \
-  --dream-anchor=mechanic-n7p#User+SetEmailNotifications \
+  --parent=sage-n7p \
+  --dream-anchor=sage-n7p#User+SetEmailNotifications \
   --type=task \
   --priority=2
-# → mechanic-n7p.4
+# → sage-n7p.4
 
 # Integration
 bd create "Update notification service to respect preferences" \
-  --parent=mechanic-n7p \
+  --parent=sage-n7p \
   --type=task \
   --priority=2
-# → mechanic-n7p.5
+# → sage-n7p.5
 ```
 
 ---
 
 ### Phase 3: Implementation with LIVE
 
-**Task 1: Email notifications (mechanic-n7p.1)**
+**Task 1: Email notifications (sage-n7p.1)**
 
 ```bash
-bd update mechanic-n7p.1 --status=in_progress
-bd live mechanic-n7p.1 --start
+bd update sage-n7p.1 --status=in_progress
+bd live sage-n7p.1 --start
 ```
 
-**LIVE observations (`.beads/live/mechanic-n7p.1-20260120-140530.md`):**
+**LIVE observations (`.beads/live/sage-n7p.1-20260120-140530.md`):**
 
 ```markdown
 ---
-bead_id: mechanic-n7p.1
+bead_id: sage-n7p.1
 status: active
 created: 2026-01-20T14:05:30Z
 critical: false
@@ -160,10 +160,10 @@ critical: false
 
 ## Source Context
 
-- **System:** Mechanic backend (Go/MongoDB)
+- **System:** Sage backend (Go/MongoDB)
 - **Environment:** Local dev
 - **Time window:** 2026-01-20 14:05-15:30
-- **Version:** mechanic@e7f2a1c
+- **Version:** sage@e7f2a1c
 
 ## Raw Observations
 
@@ -188,13 +188,13 @@ None at this time.
 
 **Complete task:**
 ```bash
-bd close mechanic-n7p.1
+bd close sage-n7p.1
 ```
 
 **Tasks 2-5: Similar pattern (smooth implementation)**
 
 ```bash
-# mechanic-n7p.2, .3, .4, .5 all implement cleanly
+# sage-n7p.2, .3, .4, .5 all implement cleanly
 # LIVE observations show no major deviations
 # All tests pass, no performance issues
 ```
@@ -206,18 +206,18 @@ bd close mechanic-n7p.1
 **All tasks complete. Run ADAPT:**
 
 ```bash
-bd adapt mechanic-n7p --analyze
+bd adapt sage-n7p --analyze
 ```
 
-**ADAPT analysis (`.beads/adapt/mechanic-n7p-cycle1.md`):**
+**ADAPT analysis (`.beads/adapt/sage-n7p-cycle1.md`):**
 
 ```markdown
 ---
-epic_id: mechanic-n7p
+epic_id: sage-n7p
 loop_cycle: 1
 status: pending_decision
 created: 2026-01-22T10:00:00Z
-dream_ref: .beads/dreams/mechanic-n7p.md
+dream_ref: .beads/dreams/sage-n7p.md
 decision: null
 ---
 
@@ -278,7 +278,7 @@ Intent was clear. Implementation confirmed design. Loop can close.
 
 **Apply decision:**
 ```bash
-bd adapt mechanic-n7p --apply keep_unchanged
+bd adapt sage-n7p --apply keep_unchanged
 
 # ✓ ADAPT cycle complete
 # ✓ Epic ready for closure
@@ -289,7 +289,7 @@ bd adapt mechanic-n7p --apply keep_unchanged
 ### Phase 5: Epic Closure
 
 ```bash
-bd close mechanic-n7p
+bd close sage-n7p
 
 # ✓ Epic closed
 # ✓ MUSE loop complete in 1 cycle
@@ -302,7 +302,7 @@ bd close mechanic-n7p
 ## Example 2: Complex Epic (Multiple ADAPT Cycles)
 
 **Epic:** Add real-time collaboration
-**Bead:** mechanic-r9x
+**Bead:** sage-r9x
 **Outcome:** Intent evolves through 3 ADAPT cycles based on evidence
 
 ---
@@ -330,7 +330,7 @@ bd close mechanic-n7p
 ```
 
 ```bash
-bd dream mechanic-r9x --ready
+bd dream sage-r9x --ready
 # ✓ Status: ready_to_render
 ```
 
@@ -340,32 +340,32 @@ bd dream mechanic-r9x --ready
 
 ```bash
 bd create "Add WebSocket connection for real-time updates" \
-  --parent=mechanic-r9x \
-  --dream-anchor=mechanic-r9x#System+SyncChangesRealtime \
+  --parent=sage-r9x \
+  --dream-anchor=sage-r9x#System+SyncChangesRealtime \
   --type=task
-# → mechanic-r9x.1
+# → sage-r9x.1
 
 bd create "Add cursor position tracking" \
-  --parent=mechanic-r9x \
-  --dream-anchor=mechanic-r9x#User+SeeCursorPositions \
+  --parent=sage-r9x \
+  --dream-anchor=sage-r9x#User+SeeCursorPositions \
   --type=task
-# → mechanic-r9x.2
+# → sage-r9x.2
 
 bd create "Implement conflict-free replicated data type (CRDT)" \
-  --parent=mechanic-r9x \
-  --dream-anchor=mechanic-r9x#User+EditProjectConcurrently \
+  --parent=sage-r9x \
+  --dream-anchor=sage-r9x#User+EditProjectConcurrently \
   --type=task
-# → mechanic-r9x.3
+# → sage-r9x.3
 ```
 
 ---
 
 ### Phase 3: Implementation with LIVE (Cycle 1)
 
-**Task 1: WebSocket (mechanic-r9x.1)**
+**Task 1: WebSocket (sage-r9x.1)**
 
 ```bash
-bd live mechanic-r9x.1 --start
+bd live sage-r9x.1 --start
 ```
 
 **LIVE observations:**
@@ -400,7 +400,7 @@ bd live mechanic-r9x.1 --start
 
 **Mark critical:**
 ```bash
-bd live mechanic-r9x.1 --critical
+bd live sage-r9x.1 --critical
 ```
 
 ---
@@ -410,7 +410,7 @@ bd live mechanic-r9x.1 --critical
 **Critical observation triggers mid-cycle ADAPT:**
 
 ```bash
-bd adapt mechanic-r9x --emergency mechanic-r9x.1
+bd adapt sage-r9x --emergency sage-r9x.1
 ```
 
 **ADAPT analysis:**
@@ -456,7 +456,7 @@ Core assumption (sub-100ms at scale) violated. Need new architectural capability
 
 **Apply decision:**
 ```bash
-bd adapt mechanic-r9x --apply update_dream
+bd adapt sage-r9x --apply update_dream
 ```
 
 **Update DREAM Section 0:**
@@ -487,20 +487,20 @@ bd adapt mechanic-r9x --apply update_dream
 
 ```bash
 bd create "Add Redis pub/sub for WebSocket message distribution" \
-  --parent=mechanic-r9x \
-  --dream-anchor=mechanic-r9x#System+DistributeMessagesAtScale \
+  --parent=sage-r9x \
+  --dream-anchor=sage-r9x#System+DistributeMessagesAtScale \
   --type=task
-# → mechanic-r9x.4
+# → sage-r9x.4
 
 bd create "Update WebSocket server to subscribe to Redis" \
-  --parent=mechanic-r9x \
+  --parent=sage-r9x \
   --type=task
-# → mechanic-r9x.5
+# → sage-r9x.5
 
 bd create "Load test with 100+ concurrent connections" \
-  --parent=mechanic-r9x \
+  --parent=sage-r9x \
   --type=task
-# → mechanic-r9x.6
+# → sage-r9x.6
 ```
 
 ---
@@ -509,7 +509,7 @@ bd create "Load test with 100+ concurrent connections" \
 
 **Tasks 4-6 implement Redis pub/sub architecture**
 
-**LIVE observations (mechanic-r9x.4):**
+**LIVE observations (sage-r9x.4):**
 
 ```markdown
 ## Raw Observations
@@ -536,7 +536,7 @@ None. Architecture scales as expected.
 ### Phase 4: ADAPT (Cycle 2)
 
 ```bash
-bd adapt mechanic-r9x --analyze
+bd adapt sage-r9x --analyze
 ```
 
 **ADAPT analysis:**
@@ -578,7 +578,7 @@ Intent from Cycle 1 evolution is now validated. Core capabilities delivered. Cur
 
 **Apply decision:**
 ```bash
-bd adapt mechanic-r9x --apply keep_unchanged
+bd adapt sage-r9x --apply keep_unchanged
 ```
 
 **Create tech debt task (not MUSE):**
@@ -586,7 +586,7 @@ bd adapt mechanic-r9x --apply keep_unchanged
 bd create "Optimize cursor position update throttling" \
   --type=task \
   --priority=3 \
-  --parent=mechanic-r9x
+  --parent=sage-r9x
 ```
 
 ---
@@ -594,7 +594,7 @@ bd create "Optimize cursor position update throttling" \
 ### Phase 5: Epic Closure
 
 ```bash
-bd close mechanic-r9x
+bd close sage-r9x
 
 # ✓ Epic closed after 2 ADAPT cycles
 # ✓ Intent evolved once (Redis pub/sub)
@@ -610,14 +610,14 @@ bd close mechanic-r9x
 ## Example 3: Emergency ADAPT with Keep Unchanged
 
 **Epic:** Add SSO authentication
-**Bead:** mechanic-s4m
+**Bead:** sage-s4m
 **Scenario:** Critical security issue found mid-implementation, but doesn't change intent
 
 ---
 
 ### Phase 3: Implementation (Abbreviated)
 
-**Task: Implement SAML provider (mechanic-s4m.2)**
+**Task: Implement SAML provider (sage-s4m.2)**
 
 **LIVE observations:**
 
@@ -642,7 +642,7 @@ bd close mechanic-r9x
 
 **Mark critical:**
 ```bash
-bd live mechanic-s4m.2 --critical
+bd live sage-s4m.2 --critical
 ```
 
 ---
@@ -650,7 +650,7 @@ bd live mechanic-s4m.2 --critical
 ### Phase 4: Emergency ADAPT
 
 ```bash
-bd adapt mechanic-s4m --emergency mechanic-s4m.2
+bd adapt sage-s4m --emergency sage-s4m.2
 ```
 
 **ADAPT analysis:**
@@ -693,7 +693,7 @@ This is an **implementation bug**, not an **intent flaw**.
 bd create "Fix XXE vulnerability in SAML XML parsing" \
   --type=bug \
   --priority=0 \
-  --parent=mechanic-s4m
+  --parent=sage-s4m
 ```
 
 **Block epic closure until P0 resolved.**
@@ -708,7 +708,7 @@ Intent is sound. This is a critical bug, but ADAPT is for intent evolution, not 
 
 **Apply decision:**
 ```bash
-bd adapt mechanic-s4m --apply keep_unchanged
+bd adapt sage-s4m --apply keep_unchanged
 ```
 
 **Create P0 bug:**
@@ -716,19 +716,19 @@ bd adapt mechanic-s4m --apply keep_unchanged
 bd create "Fix XXE vulnerability in SAML XML parsing" \
   --type=bug \
   --priority=0 \
-  --parent=mechanic-s4m \
+  --parent=sage-s4m \
   --description="Replace encoding/xml with goxmldsig for secure XML signature validation"
-# → mechanic-s4m.6
+# → sage-s4m.6
 ```
 
 **Fix bug, re-audit, close epic:**
 ```bash
 # Agent fixes XXE vulnerability
-bd close mechanic-s4m.6
+bd close sage-s4m.6
 
 # Security audit passes
 # Epic closure unblocked
-bd close mechanic-s4m
+bd close sage-s4m
 ```
 
 **Outcome:** Emergency ADAPT correctly identified this as **bug** (not intent change). Intent remained unchanged. Bug fixed within same cycle.

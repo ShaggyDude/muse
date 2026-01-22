@@ -147,8 +147,8 @@ MUSE (DREAM → LIVE → ADAPT) is a continuous learning loop for software devel
 Every bead links to its epic's DREAM:
 ```bash
 bd create "Implement Payment+Authorize" \
-  --parent=mechanic-y53 \
-  --dream-anchor=mechanic-y53#Payment+Authorize \
+  --parent=sage-y53 \
+  --dream-anchor=sage-y53#Payment+Authorize \
   --type=task
 ```
 

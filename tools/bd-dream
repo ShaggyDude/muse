@@ -33,9 +33,9 @@ Commands:
   --show              Display DREAM content
 
 Examples:
-  bd dream mechanic-y53 --init
-  bd dream mechanic-y53 --ready
-  bd dream mechanic-y53 --status
+  bd dream sage-y53 --init
+  bd dream sage-y53 --ready
+  bd dream sage-y53 --status
 
 EOF
     exit 1

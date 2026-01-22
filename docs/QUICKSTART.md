@@ -171,7 +171,7 @@ Good LIVE observations are:
 ```markdown
 ## Observations
 
-**Source:** Direct implementation (mechanic-abc.1)
+**Source:** Direct implementation (sage-abc.1)
 **Time:** 2026-01-22 10:30-12:45
 
 ### Raw Observations
@@ -351,10 +351,10 @@ Reason: Performance assumption violated, caching capability needed
 ```bash
 # Human or agent creates epic
 bd create "Add SSO authentication" --type=epic --priority=1
-# → mechanic-xyz
+# → sage-xyz
 
 # Initialize DREAM
-bd dream mechanic-xyz --init
+bd dream sage-xyz --init
 ```
 
 ### Phase 1: DREAM
@@ -378,7 +378,7 @@ Human fills Section 0:
 
 Validate and unlock:
 ```bash
-bd dream mechanic-xyz --ready
+bd dream sage-xyz --ready
 # → Status: ready_to_render
 ```
 
@@ -387,37 +387,37 @@ bd dream mechanic-xyz --ready
 Agent creates tasks with intent anchors:
 ```bash
 bd create "Implement SAML provider" \
-  --parent=mechanic-xyz \
-  --dream-anchor=mechanic-xyz#User+AuthenticateSAML \
+  --parent=sage-xyz \
+  --dream-anchor=sage-xyz#User+AuthenticateSAML \
   --type=task
-# → mechanic-xyz.1
+# → sage-xyz.1
 
 bd create "Implement OAuth2 provider" \
-  --parent=mechanic-xyz \
-  --dream-anchor=mechanic-xyz#User+AuthenticateOAuth2 \
+  --parent=sage-xyz \
+  --dream-anchor=sage-xyz#User+AuthenticateOAuth2 \
   --type=task
-# → mechanic-xyz.2
+# → sage-xyz.2
 
 bd create "Add provider config UI" \
-  --parent=mechanic-xyz \
-  --dream-anchor=mechanic-xyz#Admin+ConfigureProvider \
+  --parent=sage-xyz \
+  --dream-anchor=sage-xyz#Admin+ConfigureProvider \
   --type=task
-# → mechanic-xyz.3
+# → sage-xyz.3
 ```
 
 ### Phase 3: Implementation with LIVE
 
 ```bash
 # Agent starts task
-bd update mechanic-xyz.1 --status=in_progress
-bd live mechanic-xyz.1 --start
+bd update sage-xyz.1 --status=in_progress
+bd live sage-xyz.1 --start
 
 # During implementation, capture observations
-bd live mechanic-xyz.1 --observe "SAML metadata parsing: 450ms avg"
-bd live mechanic-xyz.1 --observe "Clock skew failures: 30% rate"
+bd live sage-xyz.1 --observe "SAML metadata parsing: 450ms avg"
+bd live sage-xyz.1 --observe "Clock skew failures: 30% rate"
 
 # Complete task
-bd close mechanic-xyz.1
+bd close sage-xyz.1
 
 # Repeat for other tasks...
 ```
@@ -426,17 +426,17 @@ bd close mechanic-xyz.1
 
 ```bash
 # Analyze all LIVE observations
-bd adapt mechanic-xyz --analyze
+bd adapt sage-xyz --analyze
 
 # Review ADAPT proposals
-bd adapt mechanic-xyz --show
+bd adapt sage-xyz --show
 
 # Apply decision
-bd adapt mechanic-xyz --apply update_dream
+bd adapt sage-xyz --apply update_dream
 # → Creates new tasks for caching capability
 
 # OR if intent achieved:
-bd adapt mechanic-xyz --apply keep_unchanged
+bd adapt sage-xyz --apply keep_unchanged
 # → Epic ready to close
 ```
 
@@ -445,14 +445,14 @@ bd adapt mechanic-xyz --apply keep_unchanged
 **If `update_dream`:**
 ```bash
 # New cycle starts
-bd create "Add SAML metadata caching" --parent=mechanic-xyz
+bd create "Add SAML metadata caching" --parent=sage-xyz
 # → Back to Phase 3
 ```
 
 **If `keep_unchanged`:**
 ```bash
 # Epic complete
-bd close mechanic-xyz
+bd close sage-xyz
 ```
 
 ---

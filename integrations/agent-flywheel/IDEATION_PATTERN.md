@@ -1,6 +1,6 @@
 # Phase 1: MUSE as Dev/Design Methodology for Agent Flywheel
 
-**Bead:** mechanic-y53  
+**Bead:** sage-y53  
 **Type:** Epic  
 **Status:** Ready for agent to claim
 

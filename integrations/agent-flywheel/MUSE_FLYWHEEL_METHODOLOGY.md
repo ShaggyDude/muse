@@ -1,7 +1,7 @@
 # MUSE as Agent Flywheel Methodology
 
 **Date:** 2026-01-21
-**Epic:** mechanic-y53
+**Epic:** sage-y53
 **Status:** v2 (Simplified)
 
 ---
@@ -161,8 +161,8 @@ Every bead links to epic's DREAM:
 
 ```bash
 bd create "Implement Payment+Authorize" \
-  --parent=mechanic-y53 \
-  --dream-anchor=mechanic-y53#Payment+Authorize \
+  --parent=sage-y53 \
+  --dream-anchor=sage-y53#Payment+Authorize \
   --type=task
 ```
 
@@ -237,10 +237,10 @@ type PaymentService struct {
 All docs use YAML frontmatter for linkage:
 ```yaml
 ---
-epic_id: mechanic-y53
+epic_id: sage-y53
 loop_cycle: 1
 status: ready_to_render
-dream_ref: .beads/dreams/mechanic-y53.md
+dream_ref: .beads/dreams/sage-y53.md
 ---
 ```
 

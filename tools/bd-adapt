@@ -35,9 +35,9 @@ Commands:
   --show                  Display ADAPT content
 
 Examples:
-  bd adapt mechanic-y53 --analyze
-  bd adapt mechanic-y53 --apply update_dream
-  bd adapt mechanic-y53 --emergency bd-3nw-20260122-001516
+  bd adapt sage-y53 --analyze
+  bd adapt sage-y53 --apply update_dream
+  bd adapt sage-y53 --emergency bd-3nw-20260122-001516
 
 EOF
     exit 1
