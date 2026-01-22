@@ -1,0 +1,350 @@
+#!/usr/bin/env bash
+# bd live - MUSE LIVE movement wrapper
+# Captures observations during implementation
+
+set -euo pipefail
+
+# Use br (beads_rust) directly since bd is an alias
+BD_CMD="br"
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+LIVE_DIR="$PROJECT_ROOT/.beads/live"
+MUSE_REPO_URL="https://raw.githubusercontent.com/ShaggyDude/muse/main"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+usage() {
+    cat <<EOF
+Usage: bd live <bead-id> [OPTIONS]
+
+MUSE LIVE movement: Capture evidence during implementation
+
+Commands:
+  --start                 Initialize LIVE observation file
+  --observe "text"        Add observation entry
+  --edit                  Open LIVE in \$EDITOR
+  --show                  Display LIVE content
+  --critical              Mark as critical (alerts epic owner)
+
+Examples:
+  bd live bd-3nw --start
+  bd live bd-3nw --observe "Test failures in payment module"
+  bd live bd-3nw --critical
+
+EOF
+    exit 1
+}
+
+error() {
+    echo -e "${RED}Error: $1${NC}" >&2
+    exit 1
+}
+
+success() {
+    echo -e "${GREEN}✓ $1${NC}"
+}
+
+info() {
+    echo -e "${BLUE}$1${NC}"
+}
+
+warn() {
+    echo -e "${YELLOW}⚠ $1${NC}"
+}
+
+# Atomic YAML frontmatter update function
+# Usage: atomic_yaml_update "file.yml" "key1" "value1" "key2" "value2" ...
+atomic_yaml_update() {
+    local file="$1"
+    shift
+
+    if [[ ! -f "$file" ]]; then
+        error "File does not exist: $file"
+    fi
+
+    if [[ $# -eq 0 || $(($# % 2)) -ne 0 ]]; then
+        error "atomic_yaml_update requires pairs of key-value arguments"
+    fi
+
+    local temp_file="${file}.tmp.$$.$RANDOM.$BASHPID"
+    local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+    # Start with the original file
+    cp "$file" "$temp_file" || error "Failed to create temp file"
+
+    # Apply all updates atomically
+    while [[ $# -gt 0 ]]; do
+        local key="$1"
+        local value="$2"
+        shift 2
+
+        # Use awk for atomic update of each key-value pair
+        awk -v key="^$key: " -v value="$key: $value" '
+            $0 ~ key { print value; next }
+            { print }
+        ' "$temp_file" > "${temp_file}.new" && mv "${temp_file}.new" "$temp_file"
+    done
+
+    # Always update timestamp as the final operation
+    awk -v timestamp="$timestamp" '
+        /^updated_at: / { print "updated_at: " timestamp; next }
+        { print }
+    ' "$temp_file" > "${temp_file}.final" && mv "${temp_file}.final" "$temp_file"
+
+    # Atomic replace
+    mv "$temp_file" "$file" || error "Failed to atomically update $file"
+}
+
+# Ensure .beads/live/ exists
+ensure_live_dir() {
+    mkdir -p "$LIVE_DIR"
+}
+
+# Find active LIVE file for a bead (deterministic, newest first)
+# Returns the most recent LIVE file based on timestamp in filename
+find_active_live() {
+    local bead_id="$1"
+    find "$LIVE_DIR" -name "${bead_id}-*.md" -type f 2>/dev/null | \
+        grep -v "\.template\.md" | \
+        sort -r | \
+        head -1 || true
+}
+
+# Fetch LIVE template from muse repo
+fetch_live_template() {
+    local template_path="$LIVE_DIR/.template.md"
+
+    if [[ ! -f "$template_path" ]] || [[ -n "${FORCE_FETCH:-}" ]]; then
+        info "Fetching LIVE template from muse repo..." >&2
+        if curl -fsSL "$MUSE_REPO_URL/LIVE-TEMPLATE.md" -o "$template_path"; then
+            success "Template fetched" >&2
+        else
+            error "Failed to fetch LIVE template from $MUSE_REPO_URL/LIVE-TEMPLATE.md"
+        fi
+    fi
+
+    echo "$template_path"
+}
+
+# Get timestamp for file naming
+get_timestamp() {
+    date -u +"%Y%m%d-%H%M%S"
+}
+
+# Start LIVE observation for bead
+live_start() {
+    local bead_id="$1"
+    local timestamp
+    timestamp=$(get_timestamp)
+    local live_file="$LIVE_DIR/${bead_id}-${timestamp}.md"
+
+    ensure_live_dir
+
+    # Use directory lock to prevent race conditions
+    local lock_dir="$LIVE_DIR/.lock-${bead_id}"
+
+    # Try to create lock directory atomically
+    if ! mkdir "$lock_dir" 2>/dev/null; then
+        error "Another process is starting LIVE for $bead_id. Please wait and retry."
+    fi
+
+    # Ensure lock is cleaned up on exit
+    trap "rmdir '$lock_dir' 2>/dev/null || true" EXIT
+
+    # Check if active LIVE already exists (with deterministic ordering)
+    local active_live
+    active_live=$(find_active_live "$bead_id")
+
+    if [[ -n "$active_live" ]]; then
+        rmdir "$lock_dir" 2>/dev/null || true
+        warn "Active LIVE observation exists: $active_live"
+        info "Use --observe to add entries or --edit to modify"
+        exit 0
+    fi
+
+    # Fetch template
+    local template
+    template=$(fetch_live_template)
+
+    # Create LIVE with YAML frontmatter
+    cat > "$live_file" <<EOF
+---
+bead_id: $bead_id
+status: actively_observing
+created_at: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
+updated_at: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
+critical: false
+---
+
+EOF
+
+    # Append template content
+    cat "$template" >> "$live_file"
+
+    # Add source context from bead
+    local bead_info
+    bead_info=$($BD_CMD show "$bead_id" 2>/dev/null || echo "")
+
+    if [[ -n "$bead_info" ]]; then
+        # Insert source context
+        sed -i "/^## Source Context/a\\
+\\
+- Bead: $bead_id\\
+- Time window: $(date -u +"%Y-%m-%d %H:%M:%S UTC")\\
+- Version: $(git rev-parse --short HEAD 2>/dev/null || echo 'unknown')" "$live_file"
+    fi
+
+    # Release lock
+    rmdir "$lock_dir" 2>/dev/null || true
+
+    success "Created LIVE observation: $live_file"
+    info "Next steps:"
+    info "  1. Add observations: bd live $bead_id --observe \"...\""
+    info "  2. Edit manually: bd live $bead_id --edit"
+    info "  3. Mark critical: bd live $bead_id --critical"
+}
+
+# Add observation entry
+live_observe() {
+    local bead_id="$1"
+    local observation="$2"
+
+    # Find active LIVE file (deterministic, newest first)
+    local live_file
+    live_file=$(find_active_live "$bead_id")
+
+    if [[ -z "$live_file" ]]; then
+        error "No active LIVE observation for $bead_id. Run: bd live $bead_id --start"
+    fi
+
+    # Add observation to "Observations (Raw, Unfiltered)" section
+    local timestamp
+    timestamp=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+
+    # Find the line number of the Observations section
+    local section_line
+    section_line=$(grep -n "^## Observations (Raw, Unfiltered)" "$live_file" | cut -d: -f1)
+
+    if [[ -z "$section_line" ]]; then
+        error "Could not find Observations section in $live_file"
+    fi
+
+    # Insert observation after the section header and format info
+    # Find the line "Record observable facts only." and insert after the next blank line
+    local insert_line
+    insert_line=$(awk '/^Record observable facts only\./{print NR+2; exit}' "$live_file")
+
+    # Use printf + awk instead of sed to avoid command injection from user input
+    # Safely insert the observation line without shell interpretation
+    {
+        head -n "$insert_line" "$live_file"
+        printf '%s\n' "- Observation [$timestamp]: $observation"
+        tail -n +"$((insert_line + 1))" "$live_file"
+    } > "$live_file.tmp" && mv "$live_file.tmp" "$live_file"
+
+    # Update timestamp in YAML frontmatter
+    local timestamp_update
+    timestamp_update=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+    sed -i "s/^updated_at: .*/updated_at: $timestamp_update/" "$live_file"
+
+    success "Observation added to $live_file"
+}
+
+# Edit LIVE in editor
+live_edit() {
+    local bead_id="$1"
+
+    # Find active LIVE file (deterministic, newest first)
+    local live_file
+    live_file=$(find_active_live "$bead_id")
+
+    if [[ -z "$live_file" ]]; then
+        error "No active LIVE observation for $bead_id. Run: bd live $bead_id --start"
+    fi
+
+    ${EDITOR:-vim} "$live_file"
+
+    # Update timestamp in YAML frontmatter
+    local timestamp_update
+    timestamp_update=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+    sed -i "s/^updated_at: .*/updated_at: $timestamp_update/" "$live_file"
+}
+
+# Show LIVE content
+live_show() {
+    local bead_id="$1"
+
+    # Find active LIVE file (deterministic, newest first)
+    local live_file
+    live_file=$(find_active_live "$bead_id")
+
+    if [[ -z "$live_file" ]]; then
+        error "No active LIVE observation for $bead_id. Run: bd live $bead_id --start"
+    fi
+
+    cat "$live_file"
+}
+
+# Mark LIVE as critical
+live_critical() {
+    local bead_id="$1"
+
+    # Find active LIVE file (deterministic, newest first)
+    local live_file
+    live_file=$(find_active_live "$bead_id")
+
+    if [[ -z "$live_file" ]]; then
+        error "No active LIVE observation for $bead_id. Run: bd live $bead_id --start"
+    fi
+
+    # Update YAML frontmatter atomically
+    atomic_yaml_update "$live_file" "critical" "true"
+
+    success "Marked as CRITICAL: $live_file"
+    warn "Epic owner should be alerted via Agent Mail (bd-2mr)"
+    info "This requires bd-2mr (Agent Mail integration) to be implemented"
+}
+
+# Main
+main() {
+    if [[ $# -lt 2 ]]; then
+        usage
+    fi
+
+    local bead_id="$1"
+    local command="$2"
+    shift 2
+
+    case "$command" in
+        --start)
+            live_start "$bead_id"
+            ;;
+        --observe)
+            if [[ $# -lt 1 ]]; then
+                error "--observe requires an observation text argument"
+            fi
+            live_observe "$bead_id" "$1"
+            ;;
+        --edit)
+            live_edit "$bead_id"
+            ;;
+        --show)
+            live_show "$bead_id"
+            ;;
+        --critical)
+            live_critical "$bead_id"
+            ;;
+        *)
+            error "Unknown command: $command"
+            usage
+            ;;
+    esac
+}
+
+main "$@"

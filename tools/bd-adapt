@@ -1,0 +1,421 @@
+#!/usr/bin/env bash
+# bd adapt - MUSE ADAPT movement wrapper
+# Interprets LIVE evidence and proposes intent changes
+
+set -euo pipefail
+
+# Use br (beads_rust) directly since bd is an alias
+BD_CMD="br"
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+ADAPT_DIR="$PROJECT_ROOT/.beads/adapt"
+LIVE_DIR="$PROJECT_ROOT/.beads/live"
+DREAMS_DIR="$PROJECT_ROOT/.beads/dreams"
+MUSE_REPO_URL="https://raw.githubusercontent.com/ShaggyDude/muse/main"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+usage() {
+    cat <<EOF
+Usage: bd adapt <epic-id> [OPTIONS]
+
+MUSE ADAPT movement: Evolve intent based on evidence
+
+Commands:
+  --analyze               Aggregate LIVE, draft proposals
+  --apply <decision>      Apply decision (update_dream | keep_unchanged)
+  --emergency <live-id>   Urgent ADAPT from critical LIVE
+  --edit                  Open ADAPT in \$EDITOR
+  --show                  Display ADAPT content
+
+Examples:
+  bd adapt mechanic-y53 --analyze
+  bd adapt mechanic-y53 --apply update_dream
+  bd adapt mechanic-y53 --emergency bd-3nw-20260122-001516
+
+EOF
+    exit 1
+}
+
+error() {
+    echo -e "${RED}Error: $1${NC}" >&2
+    exit 1
+}
+
+success() {
+    echo -e "${GREEN}✓ $1${NC}"
+}
+
+info() {
+    echo -e "${BLUE}$1${NC}"
+}
+
+warn() {
+    echo -e "${YELLOW}⚠ $1${NC}"
+}
+
+# Atomic YAML frontmatter update function
+# Usage: atomic_yaml_update "file.yml" "key1" "value1" "key2" "value2" ...
+atomic_yaml_update() {
+    local file="$1"
+    shift
+
+    if [[ ! -f "$file" ]]; then
+        error "File does not exist: $file"
+    fi
+
+    if [[ $# -eq 0 || $(($# % 2)) -ne 0 ]]; then
+        error "atomic_yaml_update requires pairs of key-value arguments"
+    fi
+
+    local temp_file="${file}.tmp.$$.$RANDOM.$BASHPID"
+    local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+    # Start with the original file
+    cp "$file" "$temp_file" || error "Failed to create temp file"
+
+    # Apply all updates atomically
+    while [[ $# -gt 0 ]]; do
+        local key="$1"
+        local value="$2"
+        shift 2
+
+        # Use awk for atomic update of each key-value pair
+        awk -v key="^$key: " -v value="$key: $value" '
+            $0 ~ key { print value; next }
+            { print }
+        ' "$temp_file" > "${temp_file}.new" && mv "${temp_file}.new" "$temp_file"
+    done
+
+    # Always update timestamp as the final operation
+    awk -v timestamp="$timestamp" '
+        /^updated_at: / { print "updated_at: " timestamp; next }
+        { print }
+    ' "$temp_file" > "${temp_file}.final" && mv "${temp_file}.final" "$temp_file"
+
+    # Atomic replace
+    mv "$temp_file" "$file" || error "Failed to atomically update $file"
+}
+
+# Ensure .beads/adapt/ exists
+ensure_adapt_dir() {
+    mkdir -p "$ADAPT_DIR"
+}
+
+# Fetch ADAPT template from muse repo
+fetch_adapt_template() {
+    local template_path="$ADAPT_DIR/.template.md"
+
+    if [[ ! -f "$template_path" ]] || [[ -n "${FORCE_FETCH:-}" ]]; then
+        info "Fetching ADAPT template from muse repo..." >&2
+        if curl -fsSL "$MUSE_REPO_URL/ADAPT-TEMPLATE.md" -o "$template_path"; then
+            success "Template fetched" >&2
+        else
+            error "Failed to fetch ADAPT template from $MUSE_REPO_URL/ADAPT-TEMPLATE.md"
+        fi
+    fi
+
+    echo "$template_path"
+}
+
+# Get next cycle number for epic
+get_next_cycle() {
+    local epic_id="$1"
+
+    # Find highest cycle number
+    local max_cycle=0
+    local existing_cycles
+    existing_cycles=$(find "$ADAPT_DIR" -name "${epic_id}-cycle*.md" -type f 2>/dev/null || true)
+
+    if [[ -n "$existing_cycles" ]]; then
+        while IFS= read -r file; then
+            local cycle_num
+            cycle_num=$(basename "$file" | sed -n "s/${epic_id}-cycle\([0-9]*\)\.md/\1/p")
+            if [[ -n "$cycle_num" ]] && [[ $cycle_num -gt $max_cycle ]]; then
+                max_cycle=$cycle_num
+            fi
+        done <<< "$existing_cycles"
+    fi
+
+    echo $((max_cycle + 1))
+}
+
+# Analyze LIVE observations and draft ADAPT
+adapt_analyze() {
+    local epic_id="$1"
+
+    ensure_adapt_dir
+
+    # Check if DREAM exists
+    local dream_file="$DREAMS_DIR/${epic_id}.md"
+    if [[ ! -f "$dream_file" ]]; then
+        error "No DREAM found for $epic_id. Run: bd dream $epic_id --init"
+    fi
+
+    # Find all LIVE observations for beads under this epic
+    info "Aggregating LIVE observations for $epic_id..."
+
+    local epic_beads
+    epic_beads=$($BD_CMD list 2>/dev/null | grep "parent-child.*$epic_id" | awk '{print $2}' | tr -d '[]' || true)
+
+    local live_files=()
+    if [[ -n "$epic_beads" ]]; then
+        while IFS= read -r bead_id; do
+            local bead_live
+            bead_live=$(find "$LIVE_DIR" -name "${bead_id}-*.md" -type f 2>/dev/null | grep -v "\.template\.md" || true)
+            if [[ -n "$bead_live" ]]; then
+                live_files+=("$bead_live")
+            fi
+        done <<< "$epic_beads"
+    fi
+
+    if [[ ${#live_files[@]} -eq 0 ]]; then
+        warn "No LIVE observations found for beads under $epic_id"
+        info "Agents should use: bd live <bead-id> --start"
+        exit 0
+    fi
+
+    success "Found ${#live_files[@]} LIVE observation(s)"
+
+    # Get next cycle number
+    local cycle
+    cycle=$(get_next_cycle "$epic_id")
+    local adapt_file="$ADAPT_DIR/${epic_id}-cycle${cycle}.md"
+
+    # Fetch template first
+    local template
+    template=$(fetch_adapt_template)
+
+    # Use noclobber mode for atomic file creation (prevents TOCTOU race)
+    set -o noclobber
+
+    # Create ADAPT with YAML frontmatter (will fail atomically if file exists)
+    if ! cat > "$adapt_file" 2>/dev/null <<'EOF'
+---
+epic_id: EPIC_ID_PLACEHOLDER
+loop_cycle: CYCLE_PLACEHOLDER
+status: interpreting_evidence
+created_at: CREATED_AT_PLACEHOLDER
+updated_at: UPDATED_AT_PLACEHOLDER
+decision: null
+dream_ref: DREAM_REF_PLACEHOLDER
+---
+
+EOF
+    then
+        set +o noclobber
+        error "ADAPT file already exists: $adapt_file (created by another process)"
+    fi
+
+    set +o noclobber
+
+    # Replace placeholders with actual values
+    local timestamp
+    timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+    sed -i "s/EPIC_ID_PLACEHOLDER/$epic_id/" "$adapt_file"
+    sed -i "s/CYCLE_PLACEHOLDER/$cycle/" "$adapt_file"
+    sed -i "s/CREATED_AT_PLACEHOLDER/$timestamp/" "$adapt_file"
+    sed -i "s/UPDATED_AT_PLACEHOLDER/$timestamp/" "$adapt_file"
+    sed -i "s|DREAM_REF_PLACEHOLDER|.beads/dreams/${epic_id}.md|" "$adapt_file"
+
+    # Append template content
+    cat "$template" >> "$adapt_file"
+
+    # Insert LIVE references
+    sed -i "/^## Inputs (Authoritative Evidence Only)/a\\
+\\
+List the evidence being interpreted.\\
+" "$adapt_file"
+
+    for live_file in "${live_files[@]}"; do
+        local live_basename
+        live_basename=$(basename "$live_file")
+        sed -i "/^List the evidence being interpreted./a\\
+- LIVE.md reference: .beads/live/${live_basename}" "$adapt_file"
+    done
+
+    sed -i "/^List the evidence being interpreted./a\\
+- Observation window: $(date -u +"%Y-%m-%d")\\
+- DREAM version: $(grep "^updated_at:" "$dream_file" | awk '{print $2}')\\
+" "$adapt_file"
+
+    success "Created ADAPT analysis: $adapt_file"
+    info "Next steps:"
+    info "  1. Review LIVE evidence"
+    info "  2. Fill in Evidence Summary, Challenged Assumptions, Tensions"
+    info "  3. Propose intent changes"
+    info "  4. Apply decision: bd adapt $epic_id --apply <update_dream|keep_unchanged>"
+}
+
+# Apply ADAPT decision
+adapt_apply() {
+    local epic_id="$1"
+    local decision="$2"
+
+    if [[ "$decision" != "update_dream" ]] && [[ "$decision" != "keep_unchanged" ]]; then
+        error "Invalid decision: $decision. Must be 'update_dream' or 'keep_unchanged'"
+    fi
+
+    # Find latest ADAPT file
+    local adapt_file
+    adapt_file=$(find "$ADAPT_DIR" -name "${epic_id}-cycle*.md" -type f 2>/dev/null | sort -V | tail -1 || true)
+
+    if [[ -z "$adapt_file" ]]; then
+        error "No ADAPT found for $epic_id. Run: bd adapt $epic_id --analyze"
+    fi
+
+    # Check if decision checkbox is set
+    if ! grep -q "^\- (x)" "$adapt_file"; then
+        error "Decision not set in ADAPT file. Mark one decision with (x) in the file."
+    fi
+
+    # Update YAML frontmatter atomically
+    atomic_yaml_update "$adapt_file" "status" "decision_made" "decision" "$decision"
+
+    success "Decision applied: $decision"
+
+    if [[ "$decision" == "update_dream" ]]; then
+        warn "Manual action required: Update DREAM based on proposals in $adapt_file"
+        info "Open DREAM: bd dream $epic_id --edit"
+        info "Review proposals in: $adapt_file"
+    else
+        info "Intent kept unchanged. Loop cycle complete."
+    fi
+}
+
+# Emergency ADAPT from critical LIVE
+adapt_emergency() {
+    local epic_id="$1"
+    local live_id="$2"
+
+    local live_file="$LIVE_DIR/${live_id}.md"
+
+    if [[ ! -f "$live_file" ]]; then
+        error "LIVE file not found: $live_file"
+    fi
+
+    # Check if marked critical
+    if ! grep -q "^critical: true" "$live_file"; then
+        warn "LIVE not marked as critical. Mark with: bd live <bead-id> --critical"
+    fi
+
+    info "Creating emergency ADAPT from $live_id..."
+
+    # Create ADAPT using analyze logic but mark as emergency
+    ensure_adapt_dir
+
+    local cycle
+    cycle=$(get_next_cycle "$epic_id")
+    local adapt_file="$ADAPT_DIR/${epic_id}-cycle${cycle}-emergency.md"
+
+    local template
+    template=$(fetch_adapt_template)
+
+    cat > "$adapt_file" <<EOF
+---
+epic_id: $epic_id
+loop_cycle: $cycle
+status: interpreting_evidence
+created_at: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
+updated_at: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
+decision: null
+emergency: true
+dream_ref: .beads/dreams/${epic_id}.md
+---
+
+EOF
+
+    cat "$template" >> "$adapt_file"
+
+    # Insert emergency LIVE reference
+    sed -i "/^## Inputs (Authoritative Evidence Only)/a\\
+\\
+**EMERGENCY ADAPT** from critical LIVE observation.\\
+\\
+- LIVE.md reference: .beads/live/${live_id}.md\\
+- Observation window: $(date -u +"%Y-%m-%d")\\
+" "$adapt_file"
+
+    success "Created emergency ADAPT: $adapt_file"
+    warn "Review critical evidence and propose urgent changes"
+}
+
+# Edit ADAPT in editor
+adapt_edit() {
+    local epic_id="$1"
+
+    # Find latest ADAPT file
+    local adapt_file
+    adapt_file=$(find "$ADAPT_DIR" -name "${epic_id}-cycle*.md" -type f 2>/dev/null | sort -V | tail -1 || true)
+
+    if [[ -z "$adapt_file" ]]; then
+        error "No ADAPT found for $epic_id. Run: bd adapt $epic_id --analyze"
+    fi
+
+    ${EDITOR:-vim} "$adapt_file"
+
+    # Update timestamp atomically
+    atomic_yaml_update "$adapt_file"
+}
+
+# Show ADAPT content
+adapt_show() {
+    local epic_id="$1"
+
+    # Find latest ADAPT file
+    local adapt_file
+    adapt_file=$(find "$ADAPT_DIR" -name "${epic_id}-cycle*.md" -type f 2>/dev/null | sort -V | tail -1 || true)
+
+    if [[ -z "$adapt_file" ]]; then
+        error "No ADAPT found for $epic_id. Run: bd adapt $epic_id --analyze"
+    fi
+
+    cat "$adapt_file"
+}
+
+# Main
+main() {
+    if [[ $# -lt 2 ]]; then
+        usage
+    fi
+
+    local epic_id="$1"
+    local command="$2"
+    shift 2
+
+    case "$command" in
+        --analyze)
+            adapt_analyze "$epic_id"
+            ;;
+        --apply)
+            if [[ $# -lt 1 ]]; then
+                error "--apply requires a decision argument (update_dream | keep_unchanged)"
+            fi
+            adapt_apply "$epic_id" "$1"
+            ;;
+        --emergency)
+            if [[ $# -lt 1 ]]; then
+                error "--emergency requires a LIVE file ID"
+            fi
+            adapt_emergency "$epic_id" "$1"
+            ;;
+        --edit)
+            adapt_edit "$epic_id"
+            ;;
+        --show)
+            adapt_show "$epic_id"
+            ;;
+        *)
+            error "Unknown command: $command"
+            usage
+            ;;
+    esac
+}
+
+main "$@"

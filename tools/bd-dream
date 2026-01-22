@@ -1,0 +1,314 @@
+#!/usr/bin/env bash
+# bd dream - MUSE DREAM movement wrapper
+# Creates and manages DREAM canvases for epics
+
+set -euo pipefail
+
+# Use br (beads_rust) directly since bd is an alias
+BD_CMD="br"
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+DREAMS_DIR="$PROJECT_ROOT/.beads/dreams"
+MUSE_REPO_URL="https://raw.githubusercontent.com/ShaggyDude/muse/main"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+usage() {
+    cat <<EOF
+Usage: bd dream <epic-id> [OPTIONS]
+
+MUSE DREAM movement: Specify intent before decomposition
+
+Commands:
+  --init              Create new DREAM canvas for epic
+  --ready             Validate DREAM and unlock Phase 1
+  --status            Check DREAM readiness
+  --edit              Open DREAM in \$EDITOR
+  --show              Display DREAM content
+
+Examples:
+  bd dream mechanic-y53 --init
+  bd dream mechanic-y53 --ready
+  bd dream mechanic-y53 --status
+
+EOF
+    exit 1
+}
+
+error() {
+    echo -e "${RED}Error: $1${NC}" >&2
+    exit 1
+}
+
+success() {
+    echo -e "${GREEN}✓ $1${NC}"
+}
+
+info() {
+    echo -e "${BLUE}$1${NC}"
+}
+
+warn() {
+    echo -e "${YELLOW}⚠ $1${NC}"
+}
+
+# Atomic YAML frontmatter update function
+# Usage: atomic_yaml_update "file.yml" "key1" "value1" "key2" "value2" ...
+atomic_yaml_update() {
+    local file="$1"
+    shift
+
+    if [[ ! -f "$file" ]]; then
+        error "File does not exist: $file"
+    fi
+
+    if [[ $# -eq 0 || $(($# % 2)) -ne 0 ]]; then
+        error "atomic_yaml_update requires pairs of key-value arguments"
+    fi
+
+    local temp_file="${file}.tmp.$$.$RANDOM.$BASHPID"
+    local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+    # Start with the original file
+    cp "$file" "$temp_file" || error "Failed to create temp file"
+
+    # Apply all updates atomically
+    while [[ $# -gt 0 ]]; do
+        local key="$1"
+        local value="$2"
+        shift 2
+
+        # Use awk for atomic update of each key-value pair
+        awk -v key="^$key: " -v value="$key: $value" '
+            $0 ~ key { print value; next }
+            { print }
+        ' "$temp_file" > "${temp_file}.new" && mv "${temp_file}.new" "$temp_file"
+    done
+
+    # Always update timestamp as the final operation
+    awk -v timestamp="$timestamp" '
+        /^updated_at: / { print "updated_at: " timestamp; next }
+        { print }
+    ' "$temp_file" > "${temp_file}.final" && mv "${temp_file}.final" "$temp_file"
+
+    # Atomic replace
+    mv "$temp_file" "$file" || error "Failed to atomically update $file"
+}
+
+# Ensure .beads/dreams/ exists
+ensure_dreams_dir() {
+    mkdir -p "$DREAMS_DIR"
+}
+
+# Fetch DREAM template from muse repo
+fetch_dream_template() {
+    local template_path="$DREAMS_DIR/.template.md"
+
+    if [[ ! -f "$template_path" ]] || [[ -n "${FORCE_FETCH:-}" ]]; then
+        info "Fetching DREAM template from muse repo..." >&2
+        if curl -fsSL "$MUSE_REPO_URL/DREAM-TEMPLATE.md" -o "$template_path"; then
+            success "Template fetched" >&2
+        else
+            error "Failed to fetch DREAM template from $MUSE_REPO_URL/DREAM-TEMPLATE.md"
+        fi
+    fi
+
+    echo "$template_path"
+}
+
+# Initialize DREAM canvas for epic
+dream_init() {
+    local epic_id="$1"
+    local dream_file="$DREAMS_DIR/${epic_id}.md"
+
+    ensure_dreams_dir
+
+    # Fetch template first (before file creation attempt)
+    local template
+    template=$(fetch_dream_template)
+
+    # Use noclobber mode for atomic file creation (prevents TOCTOU race)
+    # This ensures file creation fails if file already exists, eliminating race window
+    set -o noclobber
+
+    # Create DREAM with YAML frontmatter (will fail atomically if file exists)
+    if ! cat > "$dream_file" 2>/dev/null <<'EOF'
+---
+epic_id: EPIC_ID_PLACEHOLDER
+status: intent_forming
+created_at: CREATED_AT_PLACEHOLDER
+updated_at: UPDATED_AT_PLACEHOLDER
+---
+
+EOF
+    then
+        set +o noclobber
+        error "DREAM already exists: $dream_file (created by another process)"
+    fi
+
+    set +o noclobber
+
+    # Replace placeholders with actual values
+    sed -i "s/EPIC_ID_PLACEHOLDER/$epic_id/" "$dream_file"
+    sed -i "s/CREATED_AT_PLACEHOLDER/$(date -u +"%Y-%m-%dT%H:%M:%SZ")/" "$dream_file"
+    sed -i "s/UPDATED_AT_PLACEHOLDER/$(date -u +"%Y-%m-%dT%H:%M:%SZ")/" "$dream_file"
+
+    # Append template content
+    cat "$template" >> "$dream_file"
+
+    # Link DREAM to epic (update bead description)
+    local current_desc
+    current_desc=$($BD_CMD show "$epic_id" 2>/dev/null | sed -n '/^$/,/^Dependencies/p' | sed '1d;$d' || echo "")
+
+    $BD_CMD update "$epic_id" --description "${current_desc}
+
+DREAM: .beads/dreams/${epic_id}.md" 2>/dev/null || true
+
+    success "Created DREAM canvas: $dream_file"
+    info "Next steps:"
+    info "  1. Edit: bd dream $epic_id --edit"
+    info "  2. Fill Section 0 (Current Working Intent)"
+    info "  3. Validate: bd dream $epic_id --ready"
+}
+
+# Validate DREAM readiness
+dream_ready() {
+    local epic_id="$1"
+    local dream_file="$DREAMS_DIR/${epic_id}.md"
+
+    if [[ ! -f "$dream_file" ]]; then
+        error "DREAM not found: $dream_file. Run: bd dream $epic_id --init"
+    fi
+
+    info "Validating DREAM for $epic_id..."
+
+    local errors=0
+
+    # Check Section 0 has content (not just template placeholders)
+    # Extract lines between "## 0." and next "##"
+    local section0
+    section0=$(sed -n '/^## 0\./,/^## /p' "$dream_file" | head -n -1)
+
+    if echo "$section0" | grep -q "^- …$"; then
+        warn "Section 0 still contains template placeholders (- …)"
+        ((errors++))
+    fi
+
+    # Check status checkbox
+    if ! grep -q "^\- (x) Ready to render" "$dream_file"; then
+        warn "Status not set to 'Ready to render'. Update the checkbox in the file."
+        ((errors++))
+    fi
+
+    if [[ $errors -gt 0 ]]; then
+        error "DREAM validation failed. Fix issues and try again."
+    fi
+
+    # Update YAML frontmatter status atomically
+    atomic_yaml_update "$dream_file" "status" "ready_to_render"
+
+    success "DREAM validated! Phase 1 unlocked for $epic_id"
+    info "Agents can now decompose this epic into beads."
+}
+
+# Check DREAM status
+dream_status() {
+    local epic_id="$1"
+    local dream_file="$DREAMS_DIR/${epic_id}.md"
+
+    if [[ ! -f "$dream_file" ]]; then
+        echo "Status: NOT INITIALIZED"
+        echo "Run: bd dream $epic_id --init"
+        exit 0
+    fi
+
+    # Extract status from YAML
+    local yaml_status
+    yaml_status=$(grep "^status:" "$dream_file" | awk '{print $2}')
+    local ready_checkbox
+    ready_checkbox=$(grep "^\- (x) Ready to render" "$dream_file" || true)
+
+    echo "Epic: $epic_id"
+    echo "DREAM file: $dream_file"
+    echo "YAML status: $yaml_status"
+
+    if [[ -n "$ready_checkbox" ]]; then
+        echo "Checkbox: ✓ Ready to render"
+    else
+        echo "Checkbox: ☐ Not ready"
+    fi
+
+    # Check Section 0
+    if grep -q "^- …$" "$dream_file"; then
+        warn "Section 0 contains template placeholders"
+    else
+        success "Section 0 has content"
+    fi
+}
+
+# Edit DREAM in editor
+dream_edit() {
+    local epic_id="$1"
+    local dream_file="$DREAMS_DIR/${epic_id}.md"
+
+    if [[ ! -f "$dream_file" ]]; then
+        error "DREAM not found: $dream_file. Run: bd dream $epic_id --init"
+    fi
+
+    ${EDITOR:-vim} "$dream_file"
+
+    # Update timestamp atomically
+    atomic_yaml_update "$dream_file"
+}
+
+# Show DREAM content
+dream_show() {
+    local epic_id="$1"
+    local dream_file="$DREAMS_DIR/${epic_id}.md"
+
+    if [[ ! -f "$dream_file" ]]; then
+        error "DREAM not found: $dream_file. Run: bd dream $epic_id --init"
+    fi
+
+    cat "$dream_file"
+}
+
+# Main
+main() {
+    if [[ $# -lt 2 ]]; then
+        usage
+    fi
+
+    local epic_id="$1"
+    local command="$2"
+
+    case "$command" in
+        --init)
+            dream_init "$epic_id"
+            ;;
+        --ready)
+            dream_ready "$epic_id"
+            ;;
+        --status)
+            dream_status "$epic_id"
+            ;;
+        --edit)
+            dream_edit "$epic_id"
+            ;;
+        --show)
+            dream_show "$epic_id"
+            ;;
+        *)
+            error "Unknown command: $command"
+            usage
+            ;;
+    esac
+}
+
+main "$@"
